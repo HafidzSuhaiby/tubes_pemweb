@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function showAuthPage()
     {
-        return view('auth.auth'); // file: resources/views/auth/auth.blade.php
+        return view('auth.auth');
     }
 
     public function login(Request $request)
@@ -23,6 +23,16 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // 🔥 BEDAKAN BERDASARKAN ROLE
+            if ($user->role_id == 1) {
+                // ADMIN
+                return redirect()->route('admin.dashboard');
+            }
+
+            // USER BIASA / PENYEDIA / PELANGGAN
             return redirect()->route('home');
         }
 
