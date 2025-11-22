@@ -29,36 +29,71 @@
 
                 {{-- FORM MULTI STEP --}}
                 <section class="dj-form-wrapper">
-                    <form action="#" method="POST" enctype="multipart/form-data" id="dj-multistep-form">
+                    <form action="{{ route('daftar-jasa.store') }}" method="POST" enctype="multipart/form-data" id="dj-multistep-form">
                         @csrf
 
                         {{-- STEP 0: INFORMASI PRIBADI --}}
                         <div class="dj-step-panel active" data-step="0">
                             <h4 class="dj-form-title">Informasi Pribadi</h4>
 
+                            {{-- NAME --}}
                             <div class="dj-form-group">
                                 <label for="nama">Nama</label>
-                                <input id="nama" name="nama" type="text" placeholder="Masukkan nama lengkap">
+                                <input
+                                    id="nama"
+                                    name="nama"
+                                    type="text"
+                                    placeholder="Masukkan nama lengkap"
+                                    value="{{ auth()->user()->name }}"
+                                    {{ auth()->user()->name ? 'readonly' : '' }}>
                             </div>
 
+                            {{-- USERNAME --}}
                             <div class="dj-form-group">
                                 <label for="username">Username</label>
-                                <input id="username" name="username" type="text" placeholder="Nama pengguna">
+                                <input
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    placeholder="Nama pengguna"
+                                    value="{{ auth()->user()->username }}"
+                                    {{ auth()->user()->username ? 'readonly' : '' }}>
                             </div>
 
+                            {{-- EMAIL --}}
                             <div class="dj-form-group">
                                 <label for="email">Email</label>
-                                <input id="email" name="email" type="email" placeholder="Email aktif">
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="Email aktif"
+                                    value="{{ auth()->user()->email }}"
+                                    readonly>
                             </div>
 
+                            {{-- TELEPON --}}
                             <div class="dj-form-group">
                                 <label for="telepon">No Telepon</label>
-                                <input id="telepon" name="telepon" type="text" placeholder="Nomor WhatsApp">
+                                <input
+                                    id="telepon"
+                                    name="telepon"
+                                    type="text"
+                                    placeholder="Nomor WhatsApp"
+                                    value="{{ auth()->user()->telepon }}"
+                                    {{ auth()->user()->telepon ? 'readonly' : '' }}>
                             </div>
 
+                            {{-- ALAMAT --}}
                             <div class="dj-form-group">
                                 <label for="alamat">Alamat</label>
-                                <textarea id="alamat" name="alamat" rows="3" placeholder="Tulis alamat lengkap"></textarea>
+                                <textarea
+                                    id="alamat"
+                                    name="alamat"
+                                    rows="3"
+                                    placeholder="Tulis alamat lengkap"
+                                    {{ auth()->user()->alamat ? 'readonly' : '' }}
+                                >{{ auth()->user()->alamat }}</textarea>
                             </div>
 
                             <div class="dj-actions">
@@ -66,6 +101,7 @@
                                 <button type="button" class="dj-btn dj-btn-next dj-next">NEXT</button>
                             </div>
                         </div>
+
 
                         {{-- STEP 1: INFORMASI JASA --}}
                         <div class="dj-step-panel" data-step="1">
@@ -123,20 +159,20 @@
                             </div>
 
                             <div class="dj-form-group">
-                                <label for="kecamatan">Kecamatan</label>
-                                <input id="kecamatan" name="kecamatan" type="text" placeholder="Contoh: Rungkut">
-                            </div>
-
-                            <div class="dj-form-group">
                                 <label for="area_layanan">Area Layanan</label>
                                 <textarea id="area_layanan" name="area_layanan" rows="3"
                                           placeholder="Contoh: Seluruh wilayah Surabaya Timur."></textarea>
                             </div>
 
                             <div class="dj-form-group">
+                                <label for="hari_kerja">Hari Kerja</label>
+                                <input id="hari_kerja" name="hari_kerja" type="text" placeholder="Contoh: Senin-Sabtu">
+                            </div>
+
+                            <div class="dj-form-group">
                                 <label for="jam_operasional">Jam Operasional</label>
                                 <input id="jam_operasional" name="jam_operasional" type="text"
-                                       placeholder="Contoh: Senin–Sabtu, 08.00–17.00">
+                                       placeholder="Contoh: 08.00–17.00">
                             </div>
 
                             <div class="dj-actions">

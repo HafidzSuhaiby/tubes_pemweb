@@ -86,12 +86,12 @@
                                 <span>Data Pesanan</span>
                             </a>
 
-                            {{-- Data Laporan --}}
-                            <a href="#"
+                            {{-- Data Pendaftar Jasa --}}
+                            <a href="{{ route('admin.pendaftar-jasa') }}"
                                class="flex items-center space-x-3 px-4 py-2 rounded-lg
                                     text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                                 <i class="fa-solid fa-file-lines fa-fw"></i>
-                                <span>Data Laporan</span>
+                                <span>Pendaftar Jasa</span>
                             </a>
                         </nav>
                     </div>
