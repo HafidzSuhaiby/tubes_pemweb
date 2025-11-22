@@ -55,7 +55,7 @@
                         <nav class="flex-1 px-2 py-2 space-y-1">
 
                             {{-- Dashboard --}}
-                            <a href="#"
+                            <a href="{{ route('admin.dashboard') }}"
                                class="flex items-center space-x-3 px-4 py-2 rounded-lg
                                     text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                                 <i class="fa-solid fa-table-cells-large fa-fw"></i>
@@ -63,7 +63,7 @@
                             </a>
 
                             {{-- Data Admin --}}
-                            <a href="#"
+                            <a href="{{ route('admin.users.index') }}"
                                class="flex items-center space-x-3 px-4 py-2 rounded-lg
                                     text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                                 <i class="fa-solid fa-users fa-fw"></i>
@@ -129,11 +129,11 @@
 
                     {{-- Profile Menu --}}
                     <div id="profile-menu"
-                         class="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden z-30">
+                        class="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden z-30">
 
                         {{-- My Profile --}}
                         <a href="#"
-                           class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-lg">
                             <i class="fa-solid fa-user fa-fw"></i>
                             <span>My Profile</span>
                         </a>
@@ -144,12 +144,16 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                                    class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                    class="flex w-full text-left items-center space-x-3 px-4 py-2 
+                                        text-gray-600 hover:bg-gray-100 hover:text-gray-900 
+                                        rounded-lg bg-transparent border-0 cursor-pointer">
                                 <i class="fa-solid fa-right-from-bracket fa-fw"></i>
                                 <span>Logout</span>
                             </button>
                         </form>
+
                     </div>
+
                 </div>
             </div>
         </nav>

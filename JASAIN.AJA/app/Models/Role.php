@@ -3,9 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {
-    protected $table = 'roles';       // sesuaikan dengan nama tabel
+    use HasFactory;
+
+    protected $table = 'roles';
     protected $fillable = ['nama_role'];
+
+    // Relasi ke User
+    public function users()
+    {
+        return $this->hasMany(User::class, 'role_id', 'id');
+    }
 }

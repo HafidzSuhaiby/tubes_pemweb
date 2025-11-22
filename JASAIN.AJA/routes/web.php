@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,11 @@ Route::middleware('guest')->group(function () {
 
     // halaman login-register gabungan
     Route::get('/auth', [AuthController::class, 'showAuthPage'])->name('auth.show');
+
+    // ❗ TAMBAHKAN BAGIAN INI
+    Route::get('/login', function () {
+        return redirect()->route('auth.show');
+    });
 
     // proses login
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -43,21 +49,16 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 | Route ADMIN
 |--------------------------------------------------------------------------
-|
-| Semua route admin berada di bawah prefix /admin
-| dan hanya bisa diakses user yang sudah login.
-|
-| Jika kamu ingin khusus role admin nanti kita bisa tambah middleware admin.
-|
 */
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard Admin (pakai controller AdminController)
+    // Dashboard Admin
     Route::get('/dashboard', [AdminController::class, 'dashboard'])
-        ->name('admin.dashboard');
+        ->name('dashboard');
 
-    // Tambahan route admin lainnya dapat kamu tambahkan di sini
-    // Route::get('/services', [AdminController::class, 'services'])->name('admin.services');
+    // ================== ADMIN : DATA PENGGUNA ==================
+    Route::resource('users', UserManagementController::class)
+        ->except(['show', 'create', 'store']);
 });
 
 
