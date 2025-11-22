@@ -1,0 +1,210 @@
+/* =======================================================
+   HALAMAN DAFTAR JASA - FINAL FULL CSS
+   ======================================================= */
+
+/* ===== Layout Halaman ===== */
+.daftar-jasa-page {
+    min-height: calc(100vh - 72px);
+    background-color: #0b285b;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.dj-container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.dj-card {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    background-color: #f3f4f6;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+/* ===== Sidebar Step ===== */
+.dj-sidebar {
+    background-color: #f3f4f6;
+    border-right: 1px solid #d1d5db;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dj-step-btn {
+    width: 100%;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    padding: 10px 18px;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dj-step-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.dj-step-btn.active {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* ===== Bagian Form ===== */
+.dj-form-wrapper {
+    padding: 24px 32px 28px;
+    background-color: #f9fafb;
+    position: relative;
+}
+
+.dj-form-wrapper form {
+    height: 100%;
+}
+
+/* ===== Panel Step (Multi Step) ===== */
+.dj-step-panel {
+    display: none;
+    min-height: 500px !important;
+    height: 500px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dj-step-panel.active {
+    display: flex;
+}
+
+.dj-form-title {
+    font-size: 20px;
+    margin-bottom: 18px;
+    font-weight: 600;
+}
+
+/* ===== Input Styles ===== */
+.dj-form-group {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dj-form-group label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dj-form-group input,
+.dj-form-group textarea,
+.dj-form-group select {
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+}
+
+.dj-form-group textarea {
+    border-radius: 12px;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.dj-form-group input:focus,
+.dj-form-group textarea:focus,
+.dj-form-group select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+/* ===== Checkbox ===== */
+.dj-checkbox-group label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.dj-checkbox-group input[type="checkbox"] {
+    margin-top: 3px;
+}
+
+/* ===== Tombol Back / Next ===== */
+.dj-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dj-btn {
+    border-radius: 999px;
+    padding: 8px 26px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dj-btn-back {
+    background-color: #e5e7eb;
+}
+
+.dj-btn-back:hover {
+    background-color: #d1d5db;
+}
+
+.dj-btn-next {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.dj-btn-next:hover {
+    background-color: #1d4ed8;
+}
+
+/* ===== Footer ===== */
+.dj-footer-text {
+    text-align: center;
+    color: #f9fafb;
+    margin-top: 14px;
+    font-size: 13px;
+}
+
+/* ===== Responsive Mode ===== */
+@media (max-width: 768px) {
+    .dj-card {
+        grid-template-columns: 1fr;
+    }
+
+    .dj-sidebar {
+        border-right: none;
+        border-bottom: 1px solid #d1d5db;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .dj-step-btn {
+        flex: 1 1 45%;
+        text-align: center;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .dj-step-panel {
+        min-height: 560px;
+        height: 560px;
+    }
+
+    .dj-form-wrapper {
+        padding: 20px 16px 22px;
+    }
+}

@@ -28,6 +28,9 @@ Route::middleware('guest')->group(function () {
 });
 
 
+Route::get('/daftar-jasa', function () {
+    return view('daftar-jasa');
+})->name('daftar-jasa');
 /*
 |--------------------------------------------------------------------------
 | Route untuk User Login
