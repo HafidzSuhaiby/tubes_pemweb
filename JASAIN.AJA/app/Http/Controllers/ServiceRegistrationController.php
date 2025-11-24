@@ -12,7 +12,7 @@ class ServiceRegistrationController extends Controller
     {
         // ========== VALIDASI DASAR ==========
         $request->validate([
-            // Step 1 – Informasi pribadi (optional)
+            // Step 1 – Informasi pribadi
             'nama'      => 'nullable|string|max:255',
             'username'  => 'nullable|string|max:255',
             'email'     => 'nullable|email',
@@ -32,11 +32,36 @@ class ServiceRegistrationController extends Controller
             'hari_kerja'        => 'nullable|string|max:255',
             'jam_operasional'   => 'nullable|string|max:255',
 
-            // Step 4 – Verifikasi
-            'ktp'          => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'foto_jasa.*'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'setuju'       => 'required|boolean',
+            // Step 4 – Verifikasi & file
+            'ktp'              => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'foto_jasa.*'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'portofolio.*'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'setuju'           => 'required|boolean',
         ]);
+
+        // ========== UPDATE DATA USER (INFORMASI PRIBADI) ==========
+        $user = Auth::user();
+        $userUpdate = [];
+
+        if ($request->filled('nama') && $user->name !== $request->nama) {
+            $userUpdate['name'] = $request->nama;
+        }
+
+        if ($request->filled('username') && $user->username !== $request->username) {
+            $userUpdate['username'] = $request->username;
+        }
+
+        if ($request->filled('telepon') && $user->telepon !== $request->telepon) {
+            $userUpdate['telepon'] = $request->telepon;
+        }
+
+        if ($request->filled('alamat') && $user->alamat !== $request->alamat) {
+            $userUpdate['alamat'] = $request->alamat;
+        }
+
+        if (!empty($userUpdate)) {
+            $user->update($userUpdate);
+        }
 
         // ========== UPLOAD KTP ==========
         $ktpPath = null;
@@ -49,22 +74,30 @@ class ServiceRegistrationController extends Controller
         $fotoJasaPaths = [];
         if ($request->hasFile('foto_jasa')) {
             foreach ($request->file('foto_jasa') as $foto) {
-                // disimpan di storage/app/public/uploads/foto_jasa
                 $path = $foto->store('uploads/foto_jasa', 'public');
                 $fotoJasaPaths[] = $path;
             }
         }
 
-        // ========== SIMPAN DATA KE DATABASE ==========
+        // ========== UPLOAD PORTOFOLIO MULTIPLE ==========
+        $portofolioPaths = [];
+        if ($request->hasFile('portofolio')) {
+            foreach ($request->file('portofolio') as $foto) {
+                $path = $foto->store('uploads/portofolio', 'public');
+                $portofolioPaths[] = $path;
+            }
+        }
+
+        // ========== SIMPAN DATA PENDAFTARAN JASA ==========
         ServiceRegistration::create([
-            'user_id' => Auth::id(), // user login
+            'user_id'           => $user->id,
 
             // Step 2
-            'nama_jasa'     => $request->nama_jasa,
-            'kategori'      => $request->kategori,
-            'deskripsi'     => $request->deskripsi,
-            'pengalaman'    => $request->pengalaman,
-            'harga_mulai'   => $request->harga_mulai,
+            'nama_jasa'         => $request->nama_jasa,
+            'kategori'          => $request->kategori,
+            'deskripsi'         => $request->deskripsi,
+            'pengalaman'        => $request->pengalaman,
+            'harga_mulai'       => $request->harga_mulai,
 
             // Step 3
             'kota'              => $request->kota,
@@ -72,13 +105,13 @@ class ServiceRegistrationController extends Controller
             'hari_kerja'        => $request->hari_kerja,
             'jam_operasional'   => $request->jam_operasional,
 
-            // Step 4
+            // Step 4 (file)
             'ktp_path'          => $ktpPath,
-            'foto_jasa_paths'   => $fotoJasaPaths,        // ⬅⬅ TANPA json_encode
+            'foto_jasa_paths'   => $fotoJasaPaths,      // array, pakai cast di model
+            'portofolio_paths'  => $portofolioPaths,    // array juga
             'setuju'            => $request->setuju ? true : false,
 
-            // default
-            'status' => 'pending',
+            'status'            => 'pending',
         ]);
 
         return redirect()

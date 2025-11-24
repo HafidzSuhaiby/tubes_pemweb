@@ -46,30 +46,63 @@
     <div class="mb-6">
         <h2 class="text-lg font-semibold mb-2">Verifikasi Berkas</h2>
 
+        {{-- KTP --}}
         @if($reg->ktp_path)
             <p><strong>KTP:</strong></p>
-            <a href="{{ asset('storage/'.$reg->ktp_path) }}" target="_blank"
-               class="text-blue-500 underline">Lihat KTP</a>
+            <a href="{{ asset('storage/'.$reg->ktp_path) }}" 
+            target="_blank" class="text-blue-500 underline">
+                Lihat KTP
+            </a>
         @else
             <p class="text-gray-500">Tidak ada KTP</p>
         @endif
 
+
+        {{-- PORTOFOLIO --}}
+        @php
+            $portosRaw = $reg->portofolio_paths ?? [];
+            $portos = [];
+
+            if (is_array($portosRaw)) {
+                $portos = $portosRaw;
+            } elseif (is_string($portosRaw) && $portosRaw !== '') {
+                $decoded = json_decode($portosRaw, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $portos = $decoded;
+                } else {
+                    $portos = [$portosRaw];
+                }
+            }
+        @endphp
+
+        @if(!empty($portos))
+            <p class="mt-4"><strong>Portofolio:</strong></p>
+            <div class="flex space-x-3 mt-2">
+                @foreach($portos as $porto)
+                    <img src="{{ asset('storage/'.$porto) }}" 
+                        class="w-24 h-24 object-cover rounded border">
+                @endforeach
+            </div>
+        @else
+            <p class="text-gray-500 mt-4">Tidak ada portofolio</p>
+        @endif
+
+
+        {{-- FOTO JASA --}}
         <div class="mt-3">
             <p><strong>Foto Jasa:</strong></p>
+
             @php
                 $fotosRaw = $reg->foto_jasa_paths;
                 $fotos = [];
 
                 if (is_array($fotosRaw)) {
-                    // sudah array dari cast model
                     $fotos = $fotosRaw;
                 } elseif (is_string($fotosRaw) && $fotosRaw !== '') {
-                    // coba decode JSON
                     $decoded = json_decode($fotosRaw, true);
                     if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
                         $fotos = $decoded;
                     } else {
-                        // anggap satu path saja
                         $fotos = [$fotosRaw];
                     }
                 }
@@ -86,7 +119,6 @@
                 <p class="text-gray-500">Tidak ada foto jasa</p>
             @endif
         </div>
-
     </div>
 
     {{-- TOMBOL SETUJUI / TOLAK --}}

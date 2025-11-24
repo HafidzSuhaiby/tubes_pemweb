@@ -190,8 +190,19 @@
                                 <input id="ktp" name="ktp" type="file" accept="image/*,application/pdf">
                             </div>
 
+                           {{-- PORTOFOLIO (opsional, boleh multiple) --}}
                             <div class="dj-form-group">
-                                <label for="foto_jasa">Foto Jasa / Portofolio</label>
+                                <label for="portofolio">Portofolio (opsional)</label>
+                                <input
+                                    id="portofolio"
+                                    name="portofolio[]"
+                                    type="file"
+                                    multiple
+                                    accept="image/*">
+                            </div>
+
+                            <div class="dj-form-group">
+                                <label for="foto_jasa">Foto Jasa</label>
                                 <input id="foto_jasa" name="foto_jasa[]" type="file" multiple accept="image/*">
                             </div>
 

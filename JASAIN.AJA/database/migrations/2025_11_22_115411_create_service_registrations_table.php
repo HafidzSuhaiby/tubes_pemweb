@@ -36,14 +36,14 @@ return new class extends Migration
             // ============================
             //  STEP 3: VERIFIKASI
             // ============================
-            $table->string('ktp_path')->nullable();         // path upload KTP
-            $table->json('foto_jasa_paths')->nullable();    // path[] foto jasa (multiple)
-            $table->boolean('setuju')->default(false);      // centang syarat & ketentuan
+            $table->string('ktp_path')->nullable();             // path upload KTP
+            $table->json('portofolio_paths')->nullable();       // ⬅⬅ plural & json
+            $table->json('foto_jasa_paths')->nullable();        // path[] foto jasa (multiple)
+            $table->boolean('setuju')->default(false);          // centang syarat & ketentuan
 
             // Status pendaftaran (buat approval admin)
             $table->enum('status', ['pending', 'approved', 'rejected'])
                   ->default('pending');
-                  
 
             $table->timestamps();
         });

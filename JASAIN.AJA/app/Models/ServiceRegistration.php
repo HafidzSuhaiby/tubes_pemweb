@@ -22,12 +22,14 @@ class ServiceRegistration extends Model
         'jam_operasional',
         'ktp_path',
         'foto_jasa_paths',
+        'portofolio_paths',
         'setuju',
         'status',
     ];
 
     protected $casts = [
         'foto_jasa_paths' => 'array',
+        'portofolio_paths' => 'array',
         'setuju'          => 'boolean',
     ];
 
