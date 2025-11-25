@@ -47,25 +47,70 @@
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-3">
 
-                    {{-- LINKS --}}
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('home') ? 'active' : '' }}"
-                           href="{{ url('/home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('tentang') ? 'active' : '' }}"
-                           href="{{ url('/tentang') }}">Tentang Kami</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('jasa') ? 'active' : '' }}"
-                           href="{{ url('/jasa') }}">Jasa</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('daftar-jasa') ? 'active' : '' }}"
-                           href="{{ url('/daftar-jasa') }}">Daftar Jasa</a>
-                    </li>
+                    @auth
+                        @php
+                            $user = auth()->user();
+                            $role = optional($user->role)->nama_role; 
+                            // nilai: admin / penyedia / pelanggan
+                        @endphp
 
-                    {{-- ============= AUTH USER ============= --}}
+                        {{-- Always show --}}
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('home') ? 'active' : '' }}"
+                            href="{{ url('/home') }}">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('tentang') ? 'active' : '' }}"
+                            href="{{ url('/tentang') }}">Tentang Kami</a>
+                        </li>
+
+                        {{-- If role = penyedia → TAMPILKAN JASA SAYA --}}
+                        @if($role === 'penyedia')
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->is('jasa-saya') ? 'active' : '' }}"
+                                href="{{ route('jasa-saya') }}">
+                                    Jasa Saya
+                                </a>
+                            </li>
+
+                        {{-- Selain penyedia (pelanggan) → tampilkan Jasa + Daftar Jasa --}}
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->is('jasa') ? 'active' : '' }}"
+                                href="{{ url('/jasa') }}">Jasa</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->is('daftar-jasa') ? 'active' : '' }}"
+                                href="{{ route('daftar-jasa') }}">Daftar Jasa</a>
+                            </li>
+                        @endif
+                    @endauth
+
+
+                    {{-- ============= GUEST ============= --}}
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('home') ? 'active' : '' }}"
+                            href="{{ url('/home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('tentang') ? 'active' : '' }}"
+                            href="{{ url('/tentang') }}">Tentang Kami</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('jasa') ? 'active' : '' }}"
+                            href="{{ url('/jasa') }}">Jasa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('daftar-jasa') ? 'active' : '' }}"
+                            href="{{ url('/daftar-jasa') }}">Daftar Jasa</a>
+                        </li>
+                    @endguest
+
+
+                    {{-- ============= AUTH USER (Profile & Notifikasi) ============= --}}
                     @auth
                         {{-- Notifikasi --}}
                         <li class="nav-item d-flex align-items-center">
@@ -81,21 +126,17 @@
                             <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center gap-2"
                                     data-bs-toggle="dropdown">
 
-                                {{-- FOTO PROFIL --}}
                                 <img
                                     src="{{ Auth::user()->photo_profile
                                         ? asset('storage/profile/' . Auth::user()->photo_profile)
                                         : 'https://placehold.co/40x40/E2E8F0/718096?text=' . strtoupper(substr(Auth::user()->name, 0, 1)) }}"
                                     alt="Profile"
                                     class="rounded-circle"
-                                    width="32" height="32"
-                                    onerror="this.src='https://placehold.co/40x40/E2E8F0/718096?text=U'">
+                                    width="32" height="32">
 
-                                {{-- NAMA --}}
                                 <span class="fw-medium">{{ Auth::user()->name }}</span>
                             </button>
 
-                            {{-- DROPDOWN MENU --}}
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2" href="#">
@@ -117,16 +158,16 @@
                         </li>
                     @endauth
 
-                    {{-- ============= GUEST USER ============= --}}
+
+                    {{-- LOGIN BUTTON --}}
                     @guest
                         <li class="nav-item ms-lg-3">
                             <a href="{{ route('auth.show') }}"
-                               class="btn btn-outline-light btn-sm">
+                                class="btn btn-outline-light btn-sm">
                                 <i class="fa-solid fa-right-to-bracket me-1"></i> Login
                             </a>
                         </li>
                     @endguest
-
                 </ul>
             </div>
 

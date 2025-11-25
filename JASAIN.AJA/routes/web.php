@@ -7,7 +7,6 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\ServiceRegistrationController;
 use App\Http\Controllers\Admin\ServiceRegistrationAdminController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Route untuk Guest
@@ -33,16 +32,6 @@ Route::middleware('guest')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Route Daftar Jasa (GET)
-|--------------------------------------------------------------------------
-*/
-Route::get('/daftar-jasa', function () {
-    return view('daftar-jasa');
-})->name('daftar-jasa');
-
-
-/*
-|--------------------------------------------------------------------------
 | Route untuk User Login
 |--------------------------------------------------------------------------
 */
@@ -53,10 +42,20 @@ Route::middleware('auth')->group(function () {
         return view('home');
     })->name('home');
 
+    // halaman daftar jasa (form multi step + status)
+    Route::get('/daftar-jasa',
+        [ServiceRegistrationController::class, 'create']
+    )->name('daftar-jasa');
+
     // simpan pendaftaran jasa
-    Route::post('/daftar-jasa/store', 
+    Route::post('/daftar-jasa/store',
         [ServiceRegistrationController::class, 'store']
     )->name('daftar-jasa.store');
+
+    // halaman "Jasa Saya" untuk role penyedia
+    Route::get('/jasa-saya',
+        [ServiceRegistrationController::class, 'myService']
+    )->name('jasa-saya');
 
     // logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -77,22 +76,47 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // ================== ADMIN : DATA PENGGUNA ==================
     Route::resource('users', UserManagementController::class)
         ->except(['show', 'create', 'store']);
-    
+
     // ================== ADMIN : DATA PENDAFTAR JASA ==================
-    Route::get('/pendaftar-jasa', 
+    // LIST / INDEX
+    Route::get('/pendaftar-jasa',
         [ServiceRegistrationAdminController::class, 'index']
     )->name('pendaftar-jasa');
 
-    Route::get('/pendaftar-jasa/{id}', [ServiceRegistrationAdminController::class, 'show'])
-        ->name('pendaftar-jasa.show');
+    // DETAIL
+    Route::get('/pendaftar-jasa/{id}',
+        [ServiceRegistrationAdminController::class, 'show']
+    )->name('pendaftar-jasa.show');
 
-    Route::post('/pendaftar-jasa/{id}/approve', 
-        [ServiceRegistrationAdminController::class, 'approve']
+    // APPROVE → pakai ServiceRegistrationController (ubah status + role)
+    Route::post('/pendaftar-jasa/{id}/approve',
+        [ServiceRegistrationController::class, 'approve']
     )->name('pendaftar-jasa.approve');
 
-    Route::post('/pendaftar-jasa/{id}/reject', 
+    // REJECT
+    Route::post('/pendaftar-jasa/{id}/reject',
         [ServiceRegistrationAdminController::class, 'reject']
     )->name('pendaftar-jasa.reject');
+
+    // DELETE DATA PENDAFTAR (misal kalau ditolak)
+    Route::delete('/pendaftar-jasa/{id}',
+        [ServiceRegistrationAdminController::class, 'destroy']
+    )->name('pendaftar-jasa.destroy');
+
+     // ================== ADMIN : DATA JASA DISETUJUI ==================
+    Route::get('/data-jasa',
+        [ServiceRegistrationAdminController::class, 'approvedIndex']
+    )->name('data-jasa.index');
+
+    Route::post('/data-jasa/{id}/toggle-active', 
+        [ServiceRegistrationAdminController::class, 'toggleActive']
+    )->name('data-jasa.toggle');
+
+    // DETAIL
+    Route::get('/data-jasa/{id}',
+        [ServiceRegistrationAdminController::class, 'showApproved']
+    )->name('data-jasa.show');
+
 });
 
 

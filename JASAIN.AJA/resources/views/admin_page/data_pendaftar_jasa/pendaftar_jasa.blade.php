@@ -100,9 +100,20 @@
                                     <i class="fa-solid fa-eye fa-sm"></i>
                                     <span>Tinjau</span>
                                 </a>
+                                
+                                @if($r->status === 'rejected')
+                                    <form action="{{ route('admin.pendaftar-jasa.destroy', $r->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm ('yakin menghapus pendaftaran ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="px-3 py-1 text-xs rounded bg-red-500 text-white">
+                                        HAPUS
+                                    </button>
+                                </form>
+                            @endif
                             </div>
                         </td>
-
                     </tr>
                 @empty
                     <tr>

@@ -71,7 +71,7 @@
                             </a>
 
                             {{-- Data Jasa --}}
-                            <a href="#"
+                            <a href="{{ route('admin.data-jasa.index') }}"
                                class="flex items-center space-x-3 px-4 py-2 rounded-lg
                                     text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                                 <i class="fa-solid fa-briefcase fa-fw"></i>

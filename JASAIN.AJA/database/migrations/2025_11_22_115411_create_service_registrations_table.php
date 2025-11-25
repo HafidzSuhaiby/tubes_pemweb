@@ -44,6 +44,7 @@ return new class extends Migration
             // Status pendaftaran (buat approval admin)
             $table->enum('status', ['pending', 'approved', 'rejected'])
                   ->default('pending');
+            $table->boolean('is_active')->default(true); 
 
             $table->timestamps();
         });

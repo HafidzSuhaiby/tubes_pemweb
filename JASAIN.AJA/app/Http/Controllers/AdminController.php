@@ -2,25 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-// kalau belum punya model lain, sementara hapus saja Service, Order, Report
-// use App\Models\Service;
-// use App\Models\Order;
-// use App\Models\Report;
+use App\Models\ServiceRegistration;   // ← WAJIB ADA! IMPORT MODEL
+// use App\Models\Order;              // ← JANGAN DIPAKAI KALAU BELUM ADA
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        // contoh paling simpel dulu: hanya hitung user
+        // Statistik dasar
         $userCount = User::count();
+        $serviceCount = ServiceRegistration::where('status', 'approved')->count();
+        $orderCount = 0; // BELUM ADA ORDER, jadi 0 dulu
+        $registrantCount = ServiceRegistration::count();    // kalau punya tabel report, nanti diganti
 
-        // nanti kalau sudah ada model layanan/jasa, pesanan, laporan bisa ditambah di sini
-        // $serviceCount = Service::count();
-        // $orderCount   = Order::count();
-        // $reportCount  = Report::count();
+        // 5 pendaftar jasa terbaru
+        $registrations = ServiceRegistration::with('user')
+                        ->latest()
+                        ->take(5)
+                        ->get();
 
-        return view('admin_page.dashboard', compact('userCount'));
+        // Belum ada tabel order → kosong dulu
+        $orders = collect([]);
+
+        return view('admin_page.dashboard', compact(
+            'userCount',
+            'serviceCount',
+            'orderCount',
+            'registrantCount',
+            'registrations',
+            'orders',
+        ));
     }
 }

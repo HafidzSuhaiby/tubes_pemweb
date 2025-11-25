@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ServiceRegistration;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceRegistrationController extends Controller
 {
     public function store(Request $request)
     {
+        // Cek user sudah pernah daftar jasa atau belum
+        $sudahDaftar = ServiceRegistration::where('user_id', Auth::id())->exists();
+
+        if ($sudahDaftar) {
+            return redirect()
+                ->route('daftar-jasa')
+                ->with('error', 'Anda sudah Mendaftar Jasa. Silakan cek status pendaftaran');
+        }
+
         // ========== VALIDASI DASAR ==========
         $request->validate([
             // Step 1 – Informasi pribadi
@@ -118,4 +128,50 @@ class ServiceRegistrationController extends Controller
             ->route('daftar-jasa')
             ->with('success', 'Pendaftaran jasa berhasil dikirim, menunggu persetujuan admin.');
     }
+
+    public function create()
+    {
+        $registration = ServiceRegistration::where('user_id', Auth::id())->first();
+
+        return view('daftar-jasa', [
+            'registration' => $registration,
+        ]);
+    }
+
+
+    public function approve($id)
+    {
+        $reg = ServiceRegistration::with('user')->findOrFail($id);
+        $reg->status = 'approved';
+        $reg->save();
+
+        // ubah role user menjadi penyedia jasa
+        $user = $reg->user;
+
+        if ($user) {
+            $penyediaRole = Role::where('nama_role', 'penyedia')->first();
+
+            if ($penyediaRole) {
+                $user->role_id = $penyediaRole->id;
+                $user->save();
+            }
+        }
+
+        return redirect()
+            ->route('admin.pendaftar-jasa.show', $id)
+            ->with('success', 'Pendaftaran jasa telah disetujui.');
+    }
+    public function myService()
+    {
+        $registration = ServiceRegistration::where('user_id', Auth::id())->first();
+
+        if (!$registration || $registration->status !== 'approved') {
+            abort(403, 'Anda belum menjadi penyedia jasa.');
+        }
+
+        return view('jasa-saya', [
+            'registration' => $registration,
+        ]);
+    }
+
 }
