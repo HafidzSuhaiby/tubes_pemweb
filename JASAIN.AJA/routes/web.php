@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\ServiceRegistrationController;
 use App\Http\Controllers\Admin\ServiceRegistrationAdminController;
+use App\Http\Controllers\JasaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +109,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         [ServiceRegistrationAdminController::class, 'approvedIndex']
     )->name('data-jasa.index');
 
-    Route::post('/data-jasa/{id}/toggle-active', 
+    Route::post('/data-jasa/{id}/toggle-active',
         [ServiceRegistrationAdminController::class, 'toggleActive']
     )->name('data-jasa.toggle');
 
@@ -119,7 +120,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 });
 
-
+Route::get('/jasa', [JasaController::class, 'index'])->name('jasa.index');
 /*
 |--------------------------------------------------------------------------
 | Default Redirect

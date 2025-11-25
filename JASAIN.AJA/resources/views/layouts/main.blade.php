@@ -50,7 +50,7 @@
                     @auth
                         @php
                             $user = auth()->user();
-                            $role = optional($user->role)->nama_role; 
+                            $role = optional($user->role)->nama_role;
                             // nilai: admin / penyedia / pelanggan
                         @endphp
 
@@ -174,8 +174,13 @@
         </div>
     </nav>
 
+
+     {{-- BANNER --}}
+    @yield('banner')
     {{-- HALAMAN CONTENT --}}
     @yield('content')
+
+
 
 </div>
 
