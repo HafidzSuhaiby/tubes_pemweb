@@ -7,7 +7,7 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\ServiceRegistrationController;
 use App\Http\Controllers\Admin\ServiceRegistrationAdminController;
 use App\Http\Controllers\JasaController;
-
+use App\Http\Controllers\TentangKamiController;
 /*
 |--------------------------------------------------------------------------
 | Route untuk Guest
@@ -129,3 +129,6 @@ Route::get('/jasa', [JasaController::class, 'index'])->name('jasa.index');
 Route::get('/', function () {
     return redirect('/auth');
 });
+
+Route::get('/tentang', [TentangKamiController::class, 'index'])
+     ->name('tentang');
