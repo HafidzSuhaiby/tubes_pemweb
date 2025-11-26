@@ -199,21 +199,7 @@ new Swiper(".mySwiper", {
 
 
 {{-- FOOTER BAR --}}
-<div class="footer-bar-full">
 
-    <div class="footer-inner">
-
-        <img src="{{ asset('images/logo-jasain.png') }}" class="footer-logo">
-
-        <div class="footer-text">
-            <span>Di Jasain.aja semua bisa</span>
-        </div>
-
-        <img src="{{ asset('images/footer.png') }}" class="footer-girl">
-
-    </div>
-
-</div>
 
 <style>
 .footer-bar-full {

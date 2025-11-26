@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<div class="page-wrapper d-flex flex-column min-vh-100">
+<div class="d-flex flex-column min-vh-100 page-wrapper">
 
     {{-- NAVBAR --}}
     <nav class="navbar navbar-expand-lg navbar-dark nav-main">
@@ -175,11 +175,14 @@
     </nav>
 
 
-     {{-- BANNER --}}
-    @yield('banner')
-    {{-- HALAMAN CONTENT --}}
-    @yield('content')
+    {{-- ===== MAIN CONTENT HARUS FLEX-GROW ===== --}}
+    <main class="flex-grow-1">
+        @yield('banner')
+        @yield('content')
+    </main>
 
+    {{-- FOOTER --}}
+    @include('layouts.footer')
 
 
 </div>
