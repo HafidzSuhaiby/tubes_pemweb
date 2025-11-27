@@ -72,10 +72,4 @@ class ServiceRegistrationAdminController extends Controller
 
         return back()->with('success', 'Status jasa berhasil diperbarui.');
     }
-    public function showApproved($id)
-    {
-        $service = ServiceRegistration::with('user')->findOrFail($id);
-
-        return view('admin_page.data_jasa.data_jasa_show', compact('service'));
-    }
 }

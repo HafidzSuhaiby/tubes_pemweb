@@ -1,64 +1,25 @@
 @extends('layouts.main')
+
 @section('title', 'Jasain Aja - Solusi Semua Jasa')
 
-{{-- =====================================
-    BANNER SLIDER (FULL WIDTH)
-====================================== --}}
+@push('styles')
+    @vite('resources/css/jasa.css')
+@endpush
+
+@push('scripts')
+    @vite('resources/js/jasa.js')
+@endpush
+
+
+{{-- ===============================
+    BANNER SLIDER
+================================ --}}
 @section('banner')
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-<style>
-    .banner-full {
-        width: 100vw;
-        position: relative;
-        left: 50%;
-        margin-left: -50vw;
-        overflow: hidden;
-        background-color: #0b1e4a;
-    }
-
-    .banner-full .swiper {
-        width: 100%;
-        height: 420px;
-    }
-
-    .banner-full .swiper-slide {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100% !important;
-        height: 100% !important;
-    }
-
-    .banner-full img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .swiper-button-next,
-    .swiper-button-prev {
-        color: white !important;
-    }
-
-    .swiper-pagination-bullet {
-        background: white !important;
-        opacity: 0.7;
-    }
-
-    .swiper-pagination-bullet-active {
-        background: #007bff !important;
-        opacity: 1;
-    }
-</style>
 
 <div class="banner-full">
     <div class="swiper mySwiper">
 
         <div class="swiper-wrapper">
-
             <div class="swiper-slide">
                 <img src="{{ asset('images/banner1.png') }}" alt="">
             </div>
@@ -70,65 +31,21 @@
             <div class="swiper-slide">
                 <img src="{{ asset('images/banner3.png') }}" alt="">
             </div>
-
         </div>
 
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-pagination"></div>
+
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<script>
-new Swiper(".mySwiper", {
-    loop: true,
-    autoplay: { delay: 2500, disableOnInteraction: false },
-    slidesPerView: 1,
-    pagination: { el: ".swiper-pagination", clickable: true },
-    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-});
-</script>
-
 @endsection
 
-
-
-{{-- =====================================
-    HALAMAN KONTEN
-====================================== --}}
+{{-- ===============================
+    KONTEN
+================================ --}}
 @section('content')
-
-<style>
-    body {
-        background: #d9dfec !important;
-    }
-
-    .card-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 20px;
-    }
-
-    @media (max-width: 1200px) {
-        .card-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-    @media (max-width: 992px) {
-        .card-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 768px) {
-        .card-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 576px) {
-        .card-grid { grid-template-columns: repeat(1, 1fr); }
-    }
-
-    .card-item img {
-        height: 140px;
-        object-fit: cover;
-    }
-</style>
 
 <div class="container py-5">
 
@@ -137,147 +54,107 @@ new Swiper(".mySwiper", {
         <p class="text-secondary fs-5">Kebutuhan Anda...</p>
     </div>
 
-    {{-- FILTER --}}
+    {{-- ================= FILTER ================= --}}
     <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
 
         <select id="filterKategori" class="form-select w-auto">
             <option value="">Semua Kategori</option>
-            <option value="Sedot WC">Sedot WC</option>
-            <option value="Cleaning">Cleaning</option>
-            <option value="Service AC">Service AC</option>
-            <option value="Pipa">Perbaikan Pipa</option>
+            @foreach ($kategoriList as $kategori)
+                <option value="{{ $kategori }}">{{ $kategori }}</option>
+            @endforeach
         </select>
 
         <select id="filterArea" class="form-select w-auto">
             <option value="">Semua Area</option>
-            <option value="Jakarta">Jakarta</option>
-            <option value="Bandung">Bandung</option>
-            <option value="Surabaya">Surabaya</option>
+            @foreach ($areaList as $area)
+                <option value="{{ $area }}">{{ $area }}</option>
+            @endforeach
         </select>
 
         <button onclick="applyFilter()" class="btn btn-dark px-4">OK</button>
+
     </div>
 
-    {{-- CARD GRID --}}
-    @php
-        $lokasiList = ['Jakarta','Bandung','Surabaya','Jakarta','Bandung','Surabaya','Jakarta','Bandung','Surabaya','Jakarta'];
-    @endphp
+    {{-- ================= GRID JASA ================= --}}
+    @if ($services->count() > 0)
 
-    <div class="card-grid-wrapper">
-    <div class="card-grid">
+        <div class="card-grid-wrapper">
+            <div class="card-grid">
 
+                @foreach ($services as $service)
 
-        @for($i = 0; $i < 10; $i++)
-            @php $lokasi = $lokasiList[$i]; @endphp
+                    @php
+                        // --- Ambil foto pertama ---
+                        $raw = $service->foto_jasa_paths;
+                        $foto = null;
 
-            <div class="card-item card shadow-sm border-0 h-100"
-                data-kategori="Sedot WC"
-                data-lokasi="{{ $lokasi }}"
-                style="background:#0f1b33; color:white;">
+                        if (is_array($raw)) $foto = $raw[0] ?? null;
+                        elseif (is_string($raw)) {
+                            $decode = json_decode($raw, true);
+                            if (json_last_error() === JSON_ERROR_NONE && is_array($decode)) {
+                                $foto = $decode[0] ?? null;
+                            } else {
+                                $foto = $raw;
+                            }
+                        }
 
-                <img src="{{ asset('images/jasa1.png') }}" class="card-img-top" alt="Jasa">
+                        $fotoUrl = $foto ? asset("storage/$foto") : asset('images/jasa1.png');
+                    @endphp
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold mb-1">Sedot WC</h5>
-                    <p class="card-text text-light mb-3" style="font-size: 0.9rem;">
-                        Sedot WC, Service Mesin WC...
-                    </p>
+                    <div class="card-item card shadow-sm border-0 h-100"
+                         data-kategori="{{ $service->kategori_label }}"
+                         data-lokasi="{{ $service->kota ?? '' }}"
+                         style="background:#0f1b33; color:white;">
 
-                    <p class="mb-1"><strong>Lokasi:</strong> {{ $lokasi }}</p>
-                    <p class="mb-1"><strong>Operasional:</strong> 08:00–20:00</p>
-                    <p class="mb-3"><strong>Harga:</strong> 150.000–350.000</p>
+                        {{-- FOTO JASA --}}
+                        <img src="{{ $fotoUrl }}" class="card-img-top" alt="Foto Jasa">
 
-                    <button class="btn btn-primary w-100 mt-auto">Booking Sekarang</button>
-                </div>
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 class="card-title fw-bold mb-1">
+                                {{ $service->nama_jasa }}
+                            </h5>
+
+                            <p class="card-text text-light mb-3" style="font-size: 0.9rem;">
+                                {{ \Illuminate\Support\Str::limit($service->deskripsi, 80) }}
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Lokasi:</strong> {{ $service->kota ?? '-' }}
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Operasional:</strong>
+                                {{ $service->jam_operasional ?? '-' }}
+                            </p>
+
+                            <p class="mb-3">
+                                <strong>Harga Mulai:</strong>
+                                @if($service->harga_mulai)
+                                    Rp {{ number_format($service->harga_mulai, 0, ',', '.') }}
+                                @else
+                                    -
+                                @endif
+                            </p>
+
+                            <button class="btn btn-primary w-100 mt-auto">
+                                Booking Sekarang
+                            </button>
+
+                        </div>
+                    </div>
+
+                @endforeach
+
             </div>
-        @endfor
+        </div>
 
-    </div>
-
+    {{-- ================= NO DATA ================= --}}
+    @else
+        <div class="d-flex justify-content-center align-items-center w-100" style="height: 40vh;">
+            <p class="text-muted fs-5 m-0">Belum ada jasa yang tampil saat ini.</p>
+        </div>
+    @endif
 </div>
-
-
-
-{{-- FOOTER BAR --}}
-
-
-<style>
-.footer-bar-full {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    margin-left: -50vw;
-    background-color: #0c1c3b;
-    padding: 18px 0;
-    margin-top: 40px;
-}
-
-.footer-inner {
-    max-width: 1300px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-}
-
-.footer-logo {
-    width: 70px;
-}
-
-.footer-text {
-    font-size: 30px;
-    font-weight: 700;
-    color: white;
-    text-align: center;
-    flex-grow: 1;
-}
-
-.footer-girl {
-    width: 120px;
-    margin-right: -10px;
-}
-
-@media (max-width: 768px) {
-    .footer-inner {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-}
-</style>
-<style>
-html, body {
-    height: auto !important;
-    min-height: 100vh !important; /* penting supaya body lebih tinggi dari layar */
-    overflow-y: auto !important;
-}
-
-.page-wrapper {
-    min-height: 100vh !important; /* min-height kembali ke normal */
-    height: auto !important;
-    overflow-y: visible !important;
-    display: flex !important;     /* KEMBALIKAN FLEX agar layout normal */
-    flex-direction: column !important;
-}
-</style>
-
-{{-- FILTER SCRIPT --}}
-<script>
-function applyFilter() {
-    let kategori = document.getElementById("filterKategori").value;
-    let lokasi   = document.getElementById("filterArea").value;
-
-    document.querySelectorAll(".card-item").forEach(card => {
-        const cardKategori = card.dataset.kategori;
-        const cardLokasi   = card.dataset.lokasi;
-
-        const cocokKategori = !kategori || cardKategori === kategori;
-        const cocokLokasi   = !lokasi   || cardLokasi === lokasi;
-
-        card.style.display = (cocokKategori && cocokLokasi) ? "" : "none";
-    });
-}
-</script>
 
 @endsection

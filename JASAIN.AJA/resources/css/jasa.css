@@ -1,0 +1,145 @@
+/* ===========================
+   BANNER SLIDER
+=========================== */
+
+.banner-full {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    overflow: hidden;
+    background-color: #0b1e4a;
+}
+
+.banner-full .swiper {
+    width: 100%;
+    height: 420px;
+}
+
+.banner-full .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.banner-full img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: white !important;
+}
+
+.swiper-pagination-bullet {
+    background: white !important;
+    opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+    background: #007bff !important;
+    opacity: 1;
+}
+
+/* ===========================
+   CONTENT / GRID KARTU
+=========================== */
+
+body {
+    background: #d9dfec !important;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .card-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 992px) {
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 576px) {
+    .card-grid { grid-template-columns: repeat(1, 1fr); }
+}
+
+.card-item img {
+    height: 140px;
+    object-fit: cover;
+}
+
+/* ===========================
+   FOOTER BAR
+=========================== */
+
+.footer-bar-full {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    background-color: #0c1c3b;
+    padding: 18px 0;
+    margin-top: 40px;
+}
+
+.footer-inner {
+    max-width: 1300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+}
+
+.footer-logo {
+    width: 70px;
+}
+
+.footer-text {
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.footer-girl {
+    width: 120px;
+    margin-right: -10px;
+}
+
+@media (max-width: 768px) {
+    .footer-inner {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+/* ===========================
+   PAGE WRAPPER FIX
+=========================== */
+
+html, body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+}
+
+.page-wrapper {
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+}

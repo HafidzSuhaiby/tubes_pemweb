@@ -97,11 +97,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         [ServiceRegistrationAdminController::class, 'index']
     )->name('pendaftar-jasa');
 
-    // DETAIL
-    Route::get('/pendaftar-jasa/{id}',
-        [ServiceRegistrationAdminController::class, 'show']
-    )->name('pendaftar-jasa.show');
-
     // APPROVE → pakai ServiceRegistrationController (ubah status + role)
     Route::post('/pendaftar-jasa/{id}/approve',
         [ServiceRegistrationController::class, 'approve']

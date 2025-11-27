@@ -34,9 +34,11 @@
                     <th class="px-4 py-3 text-left">Kota</th>
                     <th class="px-4 py-3 text-left">Harga Mulai</th>
                     <th class="px-4 py-3 text-left">Status</th>
+                    <th class="px-4 py-3 text-left">Tampil</th>
                     <th class="px-4 py-3 text-left">Aksi</th>
                 </tr>
             </thead>
+
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse ($services as $service)
                     <tr class="hover:bg-gray-50">
@@ -73,7 +75,6 @@
                                 -
                             @endif
                         </td>
-
                         {{-- Status selalu approved, tapi tetap kasih badge --}}
                         <td class="px-4 py-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
@@ -81,15 +82,32 @@
                             </span>
                         </td>
 
-                        {{-- Aksi --}}
-                        <td class="px-4 py-3 space-x-2">
-                            {{-- kalau mau pakai detail pendaftar lama --}}
-                            <a href="{{ route('admin.data-jasa.show', $service->id) }}"
-                               class="inline-flex items-center px-3 py-1 rounded text-xs font-medium bg-blue-500 text-white hover:bg-blue-600">
-                                Detail
-                            </a>
-                            {{-- nanti bisa ditambah tombol non-aktifkan, dll --}}
+                        {{-- Tampil di Halaman? (is_active) --}}
+                        <td class="px-4 py-3">
+                            @if($service->is_active)
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                    Aktif
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-700">
+                                    Disembunyikan
+                                </span>
+                            @endif
                         </td>
+
+                        {{-- Aksi --}}
+                        <td class="px-4 py-3">
+                            <form action="{{ route('admin.data-jasa.toggle', $service->id) }}" method="POST" class="inline-block">
+                                @csrf
+                                <button type="submit"
+                                    class="inline-flex items-center px-3 py-1 rounded text-xs font-medium
+                                        {{ $service->is_active ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white' }}">
+                                    {{ $service->is_active ? 'Sembunyikan di Halaman' : 'Tampilkan di Halaman' }}
+                                </button>
+                            </form>
+                        </td>
+
+
                     </tr>
                 @empty
                     <tr>
