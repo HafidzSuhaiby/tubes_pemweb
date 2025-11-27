@@ -77,8 +77,8 @@
                                 <span>Data Jasa</span>
                             </a>
 
-                            {{-- Data Pesanan --}}
-                            <a href="#"
+                            {{-- ✅ Data Pesanan (admin memantau pesanan) --}}
+                            <a href="{{ route('admin.orders.index') }}"
                                class="flex items-center space-x-3 px-4 py-2 rounded-lg
                                     text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                                 <i class="fa-solid fa-receipt fa-fw"></i>

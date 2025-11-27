@@ -10,6 +10,7 @@ use App\Http\Controllers\JasaController;
 use App\Http\Controllers\TentangKamiController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomePenjualController;
+use App\Http\Controllers\Admin\OrderAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,10 +67,10 @@ Route::middleware('auth')->group(function () {
         [ServiceRegistrationController::class, 'store']
     )->name('daftar-jasa.store');
 
-    // halaman "Jasa Saya" untuk role penyedia
     Route::get('/jasa-saya',
-        [ServiceRegistrationController::class, 'myService']
+        [HomePenjualController::class, 'index']
     )->name('jasa-saya');
+
 
     // logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -120,11 +121,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/data-jasa/{id}/toggle-active',
         [ServiceRegistrationAdminController::class, 'toggleActive']
     )->name('data-jasa.toggle');
+    // DETAIL PENDAFTAR JASA
+    Route::get('/pendaftar-jasa/{id}',
+        [ServiceRegistrationAdminController::class, 'show']
+    )->name('pendaftar-jasa.show');
+    // ================== ADMIN : DATA PESANAN ==================
+    Route::get('/data-pesanan', [OrderAdminController::class, 'index'])
+        ->name('orders.index');
 
-    // DETAIL
-    Route::get('/data-jasa/{id}',
-        [ServiceRegistrationAdminController::class, 'showApproved']
-    )->name('data-jasa.show');
+    Route::get('/data-pesanan/{order}', [OrderAdminController::class, 'show'])
+        ->name('orders.show');
+
 
 });
 
@@ -144,3 +151,18 @@ Route::get('/tentang', [TentangKamiController::class, 'index'])
      Route::get('/booking', [BookingController::class, 'index'])->name('booking');
 
      Route::get('/penjual-home', [HomePenjualController::class, 'index']);
+
+     // halaman "pesanan saya" user
+Route::get('/booking', [BookingController::class, 'index'])
+    ->middleware('auth')
+    ->name('booking');
+
+// user membuat pesanan baru
+Route::post('/booking', [BookingController::class, 'store'])
+    ->middleware('auth')
+    ->name('booking.store');
+
+// update status pesanan (dipakai penyedia dan admin)
+Route::put('/orders/{order}/status', [BookingController::class, 'updateStatus'])
+    ->middleware('auth')
+    ->name('orders.update-status');

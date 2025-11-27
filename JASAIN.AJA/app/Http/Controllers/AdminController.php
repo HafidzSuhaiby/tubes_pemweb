@@ -3,28 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\ServiceRegistration;   // ← WAJIB ADA! IMPORT MODEL
-// use App\Models\Order;              // ← JANGAN DIPAKAI KALAU BELUM ADA
+use App\Models\ServiceRegistration;
+use App\Models\Order; // ← WAJIB: tambahkan model Order
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        // Statistik dasar
-        $userCount = User::count();
-        $serviceCount = ServiceRegistration::where('status', 'approved')->count();
-        $orderCount = 0; // BELUM ADA ORDER, jadi 0 dulu
-        $registrantCount = ServiceRegistration::count();    // kalau punya tabel report, nanti diganti
+        // =============================
+        //      STATISTIK DASHBOARD
+        // =============================
+        $userCount        = User::count();
+        $serviceCount     = ServiceRegistration::where('status', 'approved')->count();
+        $orderCount       = Order::count(); // total semua pesanan
+        $registrantCount  = ServiceRegistration::count();
 
-        // 5 pendaftar jasa terbaru
+
+        // =======================================
+        //   PENDAFTAR JASA TERBARU (LIMIT 5)
+        // =======================================
         $registrations = ServiceRegistration::with('user')
                         ->latest()
                         ->take(5)
                         ->get();
 
-        // Belum ada tabel order → kosong dulu
-        $orders = collect([]);
 
+        // ====================================================
+        //   PESANAN YANG SEDANG BERJALAN (pending/diproses/dll)
+        // ====================================================
+        $orders = Order::with(['user', 'service'])
+            ->whereIn('status', ['pending', 'diterima', 'diproses'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+
+        // ====================================================
+        //   KIRIM KE VIEW
+        // ====================================================
         return view('admin_page.dashboard', compact(
             'userCount',
             'serviceCount',

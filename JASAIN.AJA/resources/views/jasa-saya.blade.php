@@ -109,22 +109,97 @@
                     </div>
 
                     {{-- TAB 2: PESANAN SAYA --}}
-                    <div class="my-service-tab" id="tab-orders">
-                        <div class="my-service-header mb-3">
-                            <h2 class="my-service-title">Pesanan Saya</h2>
-                            <p class="my-service-sub">
-                                Pesanan dari pengguna yang masuk ke jasa kamu.
-                            </p>
+                        <div class="my-service-tab" id="tab-orders">
+                            <div class="my-service-header mb-3">
+                                <h2 class="my-service-title">Pesanan Saya</h2>
+                                <p class="my-service-sub">
+                                    Pesanan dari pengguna yang masuk ke jasa kamu.
+                                </p>
+                            </div>
+
+                            @if(!$registration)
+                                <div class="my-service-empty">
+                                    <i class="fa-regular fa-folder-open my-service-empty-icon"></i>
+                                    <p class="my-service-empty-title">Belum ada jasa aktif</p>
+                                    <p class="my-service-empty-sub">
+                                        Daftarkan jasa terlebih dahulu untuk bisa menerima pesanan.
+                                    </p>
+                                </div>
+                            @elseif($orders->isEmpty())
+                                <div class="my-service-empty">
+                                    <i class="fa-regular fa-folder-open my-service-empty-icon"></i>
+                                    <p class="my-service-empty-title">Belum ada pesanan masuk</p>
+                                    <p class="my-service-empty-sub">
+                                        Pesanan dari pengguna akan muncul di sini begitu ada yang melakukan booking.
+                                    </p>
+                                </div>
+                            @else
+                                <div class="table-responsive my-service-table-wrapper">
+                                    <table class="table align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Pemesan</th>
+                                                <th>Tanggal & Jam</th>
+                                                <th>Alamat</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($orders as $index => $order)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>
+                                                        {{ $order->user->name ?? 'User #' . $order->user_id }}<br>
+                                                        <small class="text-muted">{{ $order->user->email ?? '' }}</small>
+                                                    </td>
+                                                    <td>
+                                                        {{ \Carbon\Carbon::parse($order->booking_date)->format('d M Y') }}
+                                                        {{ $order->booking_time }}
+                                                    </td>
+                                                    <td style="max-width: 240px;">
+                                                        <small>{{ $order->alamat }}</small>
+                                                    </td>
+                                                    <td>
+                                                        @php
+                                                            $badgeClass = match($order->status) {
+                                                                'pending'    => 'bg-secondary',
+                                                                'diterima'   => 'bg-primary',
+                                                                'diproses'   => 'bg-warning text-dark',
+                                                                'selesai'    => 'bg-success',
+                                                                'dibatalkan' => 'bg-danger',
+                                                                default      => 'bg-secondary',
+                                                            };
+                                                        @endphp
+                                                        <span class="badge {{ $badgeClass }}">
+                                                            {{ $order->status_label }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <form method="POST" action="{{ route('orders.update-status', $order->id) }}" class="d-flex gap-2">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <select name="status" class="form-select form-select-sm">
+                                                                <option value="pending"    @selected($order->status === 'pending')>Pending</option>
+                                                                <option value="diterima"   @selected($order->status === 'diterima')>Diterima</option>
+                                                                <option value="diproses"   @selected($order->status === 'diproses')>Diproses</option>
+                                                                <option value="selesai"    @selected($order->status === 'selesai')>Selesai</option>
+                                                                <option value="dibatalkan" @selected($order->status === 'dibatalkan')>Dibatalkan</option>
+                                                            </select>
+                                                            <button type="submit" class="btn btn-sm btn-dark">
+                                                                Simpan
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
                         </div>
 
-                        {{-- EMPTY STATE sementara --}}
-                        <div class="my-service-empty">
-                            <i class="fa-regular fa-folder-open my-service-empty-icon"></i>
-                            <p class="my-service-empty-title">Belum ada pesanan masuk</p>
-                            <p class="my-service-empty-sub">
-                                Pesanan dari pengguna akan muncul di sini setelah fitur pemesanan aktif.
-                            </p>
-                        </div>
 
                         {{-- 
                         NANTI kalau sudah ada data pesanan:

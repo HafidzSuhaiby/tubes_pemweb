@@ -83,29 +83,33 @@
                                 <td class="py-3">
                                     @php
                                         $statusColor = [
-                                            'pending' => 'bg-yellow-100 text-yellow-700',
+                                            'pending'  => 'bg-yellow-100 text-yellow-700',
                                             'approved' => 'bg-green-100 text-green-700',
-                                            'rejected' => 'bg-red-100 text-red-700'
+                                            'rejected' => 'bg-red-100 text-red-700',
                                         ];
                                     @endphp
-                                    <span class="px-2 py-1 text-xs rounded-full font-semibold {{ $statusColor[$reg->status] }}">
+                                    <span class="px-2 py-1 text-xs rounded-full font-semibold {{ $statusColor[$reg->status] ?? 'bg-gray-100 text-gray-700' }}">
                                         {{ ucfirst($reg->status) }}
                                     </span>
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="3" class="text-center py-4">Belum ada data</td></tr>
+                            <tr><td colspan="3" class="text-center py-4 text-sm text-gray-500">Belum ada data</td></tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
 
-        {{-- TABLE 2: RIWAYAT PESANAN --}}
+        {{-- TABLE 2: RIWAYAT PESANAN (SEDANG BERJALAN) --}}
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-semibold text-gray-800">Riwayat Pesanan</h2>
-                <a href="#" class="text-md text-blue-600 hover:text-blue-800 hover:underline">
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">Riwayat Pesanan</h2>
+                   
+                </div>
+                <a href="{{ route('admin.orders.index') }}" 
+                   class="text-md text-blue-600 hover:text-blue-800 hover:underline">
                     Lihat Semua
                 </a>
             </div>
@@ -121,17 +125,33 @@
                     </thead>
                     <tbody class="text-md text-gray-600">
                         @forelse ($orders as $order)
+                            @php
+                                $statusBadge = match($order->status) {
+                                    'pending'    => 'bg-gray-100 text-gray-700',
+                                    'diterima'   => 'bg-blue-100 text-blue-700',
+                                    'diproses'   => 'bg-yellow-100 text-yellow-800',
+                                    'selesai'    => 'bg-green-100 text-green-700',
+                                    'dibatalkan' => 'bg-red-100 text-red-700',
+                                    default      => 'bg-gray-100 text-gray-700',
+                                };
+                            @endphp
                             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                                <td class="py-3 font-medium text-gray-800">{{ $order->user->name }}</td>
-                                <td class="py-3">{{ $order->service->nama_jasa }}</td>
+                                <td class="py-3 font-medium text-gray-800">
+                                    {{ $order->user->name }}
+                                </td>
                                 <td class="py-3">
-                                    <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs">
-                                        {{ $order->status }}
+                                    {{ $order->service->nama_jasa }}
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $statusBadge }}">
+                                        {{ $order->status_label ?? ucfirst($order->status) }}
                                     </span>
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="3" class="text-center py-4">Belum ada pesanan</td></tr>
+                            <tr><td colspan="3" class="text-center py-4 text-sm text-gray-500">
+                                Belum ada pesanan yang sedang berjalan
+                            </td></tr>
                         @endforelse
                     </tbody>
                 </table>
