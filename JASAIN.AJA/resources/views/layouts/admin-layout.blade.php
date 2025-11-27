@@ -43,8 +43,7 @@
 
                         {{-- Ikon chevron --}}
                         <i id="dropdown-icon"
-                           class="fa-solid fa-chevron-down fa-sm text-gray-500 transition-transform duration-300">
-                        </i>
+                           class="fa-solid fa-chevron-down fa-sm text-gray-500 transition-transform duration-300"></i>
                     </button>
 
                     {{-- DROPDOWN SIDEBAR --}}
@@ -62,7 +61,7 @@
                                 <span>Dashboard</span>
                             </a>
 
-                            {{-- Data Admin --}}
+                            {{-- Data Pengguna --}}
                             <a href="{{ route('admin.users.index') }}"
                                class="flex items-center space-x-3 px-4 py-2 rounded-lg
                                     text-gray-600 hover:bg-gray-100 hover:text-gray-900">
@@ -98,7 +97,7 @@
                 </div>
             </div>
 
-            {{-- ================== RIGHT SECTION ================== --}}
+            {{-- ================= RIGHT SECTION ================= --}}
             <div class="flex items-center space-x-4">
 
                 {{-- Notifikasi --}}
@@ -113,10 +112,12 @@
                     <button id="profile-toggle"
                             class="flex items-center space-x-2 focus:outline-none">
 
+                        {{-- FOTO PROFIL ADMIN --}}
                         <img class="w-8 h-8 rounded-full object-cover"
                              src="{{ Auth::user()->photo_profile
-                                   ? asset('storage/profile/' . Auth::user()->photo_profile)
-                                   : 'https://placehold.co/40x40/E2E8F0/718096?text=A' }}"
+                                 ? asset('storage/uploads/foto_profile/' . Auth::user()->photo_profile)
+                                 : 'https://placehold.co/40x40/E2E8F0/718096?text=' 
+                                   . strtoupper(substr(Auth::user()->name, 0, 1)) }}"
                              alt="Profile">
 
                         <span class="hidden sm:inline text-gray-800 font-medium">
@@ -132,8 +133,9 @@
                         class="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden z-30">
 
                         {{-- My Profile --}}
-                        <a href="#"
-                        class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-lg">
+                        <a href="{{ route('profile.edit') }}"
+                           class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 
+                                  hover:bg-gray-100 hover:text-gray-900 rounded-lg">
                             <i class="fa-solid fa-user fa-fw"></i>
                             <span>My Profile</span>
                         </a>

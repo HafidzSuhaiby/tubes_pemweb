@@ -128,7 +128,7 @@
 
                                 <img
                                     src="{{ Auth::user()->photo_profile
-                                        ? asset('storage/profile/' . Auth::user()->photo_profile)
+                                        ? asset('storage/uploads/foto_profile/' . Auth::user()->photo_profile)
                                         : 'https://placehold.co/40x40/E2E8F0/718096?text=' . strtoupper(substr(Auth::user()->name, 0, 1)) }}"
                                     alt="Profile"
                                     class="rounded-circle"
@@ -139,7 +139,7 @@
 
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('profile.edit')}}">
                                         <i class="fa-solid fa-user"></i> My Profile
                                     </a>
                                 </li>
