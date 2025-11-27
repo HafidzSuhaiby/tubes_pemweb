@@ -41,6 +41,16 @@ Route::middleware('guest')->group(function () {
 */
 Route::middleware('auth')->group(function () {
 
+    Route::get(
+        '/profile',
+        [UserManagementController::class, 'editProfile']
+    )->name('profile.edit');
+
+    Route::put(
+        '/profile',
+        [UserManagementController::class, 'updateProfile']
+    )->name('profile.update');
+    
     // halaman home user
     Route::get('/home', function () {
         return view('home');

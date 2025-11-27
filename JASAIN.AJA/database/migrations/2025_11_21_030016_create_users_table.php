@@ -14,14 +14,23 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->nullable();
             $table->string('email')->unique();
+
+            // Telepon & alamat
             $table->string('telepon')->nullable();
             $table->text('alamat')->nullable();
+
+            // Foto profil baru
+            $table->string('photo_profile')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            // role_id jika kamu pakai roles table
+            // role_id jika roles table tersedia
             if (Schema::hasTable('roles')) {
-                $table->foreignId('role_id')->nullable()->constrained()->onDelete('set null');
+                $table->foreignId('role_id')
+                      ->nullable()
+                      ->constrained()
+                      ->nullOnDelete();
             }
 
             $table->rememberToken();
