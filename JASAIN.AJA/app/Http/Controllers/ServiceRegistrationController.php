@@ -163,10 +163,15 @@ class ServiceRegistrationController extends Controller
     }
     public function myService()
     {
-        $registration = ServiceRegistration::where('user_id', Auth::id())->first();
+        $registration = ServiceRegistration::where('user_id', Auth::id())
+            ->where('status', 'approved') // hanya yang sudah disetujui
+            ->first();
 
-        if (!$registration || $registration->status !== 'approved') {
-            abort(403, 'Anda belum menjadi penyedia jasa.');
+        // kalau belum ada yang approved
+        if (!$registration) {
+            return redirect()
+                ->route('daftar-jasa')
+                ->with('error', 'Pendaftaran jasa Anda belum disetujui admin.');
         }
 
         return view('jasa-saya', [
