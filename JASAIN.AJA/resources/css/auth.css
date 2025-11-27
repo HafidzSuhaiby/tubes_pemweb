@@ -10,7 +10,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e4ebff;
+    background: #ffffff;
 }
 
 /* WRAPPER */
@@ -34,7 +34,7 @@ body {
     position: absolute;
     top: 0;
     padding: 60px;
-    background: #fff;
+    background: #ffffff;
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -143,7 +143,7 @@ body {
 .overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #4f46e5, #1d4ed8);
+    background: linear-gradient(135deg, #060a1b, #4925ca);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,8 +162,8 @@ body {
 ======================== */
 .overlay-panel {
     text-align: center;
-    color: #fff;
-    padding: 40px;
+    color: #ffffff;
+    padding: 50px;
     transition: all .6s ease;
     position: absolute;
     inset: 0;
@@ -196,4 +196,41 @@ body {
     opacity: 0;
     transform: translateX(20%);
     pointer-events: none;
+}
+
+
+/* ========================
+   PERBAIKAN POSISI TOMBOL
+   DI PANEL OVERLAY-RIGHT
+======================== */
+
+/* Tambah jarak antara paragraf & tombol */
+.overlay-right p {
+    margin-bottom: px;
+}
+
+/* Turunkan tombol SIGN UP */
+.overlay-right button {
+    margin-top: 10px;   /* Bisa ubah ke 20–40 untuk lebih turun */
+}
+
+.overlay-left p {
+    margin-bottom: px;
+}
+
+/* Turunkan tombol SIGN UP */
+.overlay-left button {
+    margin-top: 10px;   /* Bisa ubah ke 20–40 untuk lebih turun */
+}
+
+
+.auth-wrapper {
+    position: relative;
+}
+.auth-wrapper {
+    border: 2px solid rgba(120, 134, 255, 0.5);
+    box-shadow:
+        0 0 10px rgba(120, 134, 255, 0.3),
+        0 0 25px rgba(120, 134, 255, 0.2),
+        0 0 40px rgba(120, 134, 255, 0.15);
 }

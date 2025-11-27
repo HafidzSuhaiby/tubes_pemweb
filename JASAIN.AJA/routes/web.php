@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\ServiceRegistrationAdminController;
 use App\Http\Controllers\JasaController;
 use App\Http\Controllers\TentangKamiController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\HomePenjualController;
+
 /*
 |--------------------------------------------------------------------------
 | Route untuk Guest
@@ -135,3 +137,5 @@ Route::get('/tentang', [TentangKamiController::class, 'index'])
      ->name('tentang');
 
      Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+
+     Route::get('/penjual-home', [HomePenjualController::class, 'index']);

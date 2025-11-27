@@ -229,13 +229,13 @@
     <div class="team-wrapper">
 
         <div class="team-card">
-             <img src="{{ asset('images/foto1.jpg') }}" alt="">
+             <img src="{{ asset('images/foto1.png') }}" alt="">
             <h4>Mohammad Hafidz Suhaiby</h4>
             <p></p>
         </div>
 
         <div class="team-card">
-             <img src="{{ asset('images/foto2.jpg') }}" alt="">
+             <img src="{{ asset('images/foto2.png') }}" alt="">
             <h4>Jidan Syaputra Laut</h4>
         </div>
 

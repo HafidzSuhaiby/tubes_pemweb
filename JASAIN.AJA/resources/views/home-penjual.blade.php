@@ -15,14 +15,12 @@
                 {{-- Kiri: teks --}}
                 <div class="col-lg-6 text-white hero-text">
                     <h1 class="hero-title fw-bold mb-3">
-                        Butuh Jasa?<br>
-                        Semua Ada di Sini
+                        Selamat Datang<br>
+                        JasaWarior!!
                     </h1>
 
                     <p class="hero-subtext mb-4">
-                        “Temukan layanan terbaik dari penyedia jasa profesional yang terverifikasi,
-                        dengan kualitas terjamin untuk mendukung kebutuhan pribadi maupun bisnis Anda.”
-                    </p>
+                        “Terima kasih sudah mempercayai Jasain.Aja sebagai platform untuk mempromosikan jasa Anda.
 
                     <div class="d-flex flex-wrap gap-3 justify-content-end">
                         <a href="#" id="btnCariJasa" class="btn btn-primary px-4 py-2">
@@ -50,10 +48,10 @@
                         </svg>
 
                         {{-- FOTO --}}
-                        <img src="{{ asset('images/oranghome.png') }}"
-                            alt="pekerja"
-                            class="position-relative img-fluid z-20"
-                            style="width: 75%; height: auto; transform: translateY(-40px);">
+                        <img src="{{ asset('images/pekerja.png') }}"
+                             alt="pekerja"
+                             class="position-relative img-fluid z-20"
+                             style="width: 75%; height: auto; transform: translateY(40px);">
                     </div>
 
                 </div>

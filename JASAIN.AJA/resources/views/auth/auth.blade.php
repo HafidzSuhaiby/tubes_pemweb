@@ -12,8 +12,8 @@
 
     {{-- FORM SIGN IN --}}
     <div class="forms sign-in">
-        <h2>Sign In</h2>
-        <p class="subtitle">Use your email and password to sign in.</p>
+        <h2>LOGIN </h2>
+        <p class="subtitle">Masukkan email dan password dengan benar!</p>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -27,20 +27,19 @@
                 <input type="password" id="login_password" name="password" placeholder="••••••••" required>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="margin-top: 8px;">SIGN IN</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 8px;">MASUK</button>
         </form>
     </div>
 
     {{-- FORM SIGN UP --}}
     <div class="forms sign-up">
-        <h2>Create Account</h2>
-        <p class="subtitle">Register with your personal details to use all features.</p>
+        <h2>Daftar Akun Anda</h2>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="input-group">
-                <label for="register_name">Name</label>
-                <input type="text" id="register_name" name="name" placeholder="Your name" required>
+                <label for="register_name">Nama</label>
+                <input type="text" id="register_name" name="name" placeholder="name" required>
             </div>
 
             <div class="input-group">
@@ -58,7 +57,7 @@
                 <input type="password" id="register_password_confirmation" name="password_confirmation" placeholder="Confirm password" required>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="margin-top: 8px;">SIGN UP</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 8px;">DAFTARKAN</button>
         </form>
     </div>
 
@@ -66,13 +65,17 @@
     <div class="overlay-container">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
-                <h2>Welcome Back!</h2>
-                <button class="btn btn-outline" id="goToSignIn">SIGN IN</button>
+                <h2>Welcome JasaFam!</h2>
+                 <p class="text-lg text-blue-100 max-w-sm leading-relaxed">
+                 Sudah punya akun?</p>
+                <button class="btn btn-outline" id="goToSignIn">MASUK</button>
             </div>
 
             <div class="overlay-panel overlay-right">
-                <h2>Hello, Friend!</h2>
-                <button class="btn btn-outline" id="goToSignUp">SIGN UP</button>
+                <h2>Halo, JasaFam!</h2>
+                <p class="text-lg text-blue-100 max-w-sm leading-relaxed">
+                 Belum punya akun? Daftar sekarang dan mulai promosikan jasa kamu atau pesan layanan terbaik di Jasain.Aja!</p>
+                <button class="btn btn-outline" id="goToSignUp">DAFTAR</button>
             </div>
         </div>
     </div>
