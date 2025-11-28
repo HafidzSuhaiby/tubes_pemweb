@@ -119,7 +119,7 @@
                         {{-- 🛒 KERANJANG – HANYA DI HALAMAN JASA & ROLE PELANGGAN --}}
                         @if($role === 'pelanggan' && request()->is('jasa'))
                             <li class="nav-item d-flex align-items-center">
-                                <a href="{{ route('booking') }}"
+                                <a href="{{ route('cart.index') }}"
                                    class="nav-link position-relative d-flex align-items-center">
                                     <i class="fa-solid fa-cart-shopping fa-lg text-white"></i>
                                     {{-- kalau mau badge jumlah pesanan nanti bisa ditambah di sini --}}

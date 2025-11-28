@@ -11,6 +11,7 @@ use App\Http\Controllers\TentangKamiController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomePenjualController;
 use App\Http\Controllers\Admin\OrderAdminController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/jasa-saya',
         [HomePenjualController::class, 'index']
     )->name('jasa-saya');
+
+    // halaman keranjang
+    Route::get('/cart', [CartController::class, 'index'])
+        ->name('cart.index');
+
+    // tambah item ke keranjang (dari modal booking)
+    Route::post('/cart/add', [CartController::class, 'store'])
+        ->name('cart.add');
+
+    // checkout keranjang → buat pesanan
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])
+        ->name('cart.checkout');
 
 
     // logout

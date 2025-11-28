@@ -203,7 +203,7 @@
           {{-- FORM BOOKING --}}
           <div class="col-md-7">
             @auth
-            <form id="bookingForm" method="POST" action="{{ route('booking.store') }}">
+            <form id="bookingForm" method="POST" action="{{ route('cart.add') }}">
               @csrf
               <input type="hidden" name="service_id" id="bookingServiceId">
 
@@ -228,10 +228,6 @@
               </div>
 
               <div class="d-flex justify-content-between align-items-center">
-                {{-- tombol pembayaran nanti diisi logic --}}
-                <button type="button" class="btn btn-outline-secondary" disabled>
-                  Pembayaran (coming soon)
-                </button>
 
                 <button type="submit" class="btn btn-primary">
                   Buat Pesanan
@@ -251,53 +247,3 @@
 </div>
 
 @endsection
-
-{{-- SCRIPT UNTUK ISI DATA MODAL + service_id --}}
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('.btn-booking');
-
-    const serviceIdInput = document.getElementById('bookingServiceId');
-    const jasaNamaEl     = document.getElementById('modalJasaNama');
-    const jasaKategoriEl = document.getElementById('modalJasaKategori');
-    const jasaLokasiEl   = document.getElementById('modalJasaLokasi');
-    const jasaJamEl      = document.getElementById('modalJasaJam');
-    const jasaHargaEl    = document.getElementById('modalJasaHarga');
-    const jasaFotoEl     = document.getElementById('modalJasaFoto');
-
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id       = btn.dataset.id;
-            const nama     = btn.dataset.nama;
-            const kategori = btn.dataset.kategori;
-            const lokasi   = btn.dataset.lokasi;
-            const jam      = btn.dataset.jam;
-            const harga    = btn.dataset.harga;
-            const foto     = btn.dataset.foto;
-
-            // isi hidden input service_id
-            serviceIdInput.value = id;
-
-            // isi info jasa di modal
-            if (jasaNamaEl)     jasaNamaEl.textContent = nama || '';
-            if (jasaKategoriEl) jasaKategoriEl.textContent = kategori || '-';
-            if (jasaLokasiEl)   jasaLokasiEl.textContent = lokasi || '-';
-            if (jasaJamEl)      jasaJamEl.textContent = jam || '-';
-
-            if (jasaHargaEl) {
-                if (harga) {
-                    jasaHargaEl.textContent = 'Rp ' + Number(harga).toLocaleString('id-ID');
-                } else {
-                    jasaHargaEl.textContent = '-';
-                }
-            }
-
-            if (jasaFotoEl && foto) {
-                jasaFotoEl.src = foto;
-            }
-        });
-    });
-});
-</script>
-@endpush
