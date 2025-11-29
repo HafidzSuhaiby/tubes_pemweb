@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    const STATUS_PENDING   = 'pending';
-    const STATUS_DITERIMA  = 'diterima';
-    const STATUS_DIPROSES  = 'diproses';
-    const STATUS_SELESAI   = 'selesai';
-    const STATUS_DIBATALKAN = 'dibatalkan';
+    use HasFactory;
 
     protected $fillable = [
         'user_id',
@@ -21,11 +18,14 @@ class Order extends Model
         'alamat',
         'catatan',
         'status',
+
+        // pembayaran
         'payment_status',
         'payment_method',
+        'payment_token',
     ];
 
-    // Relasi
+    // relasi (kalau belum ada)
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -41,16 +41,16 @@ class Order extends Model
         return $this->belongsTo(ServiceRegistration::class, 'service_id');
     }
 
-    // Helper untuk label status (kalau mau beda tampilan)
-    public function getStatusLabelAttribute()
+    // accessor label status (biar tampilan rapi)
+    public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            self::STATUS_PENDING    => 'Pending',
-            self::STATUS_DITERIMA   => 'Diterima',
-            self::STATUS_DIPROSES   => 'Diproses',
-            self::STATUS_SELESAI    => 'Selesai',
-            self::STATUS_DIBATALKAN => 'Dibatalkan',
-            default                 => ucfirst($this->status),
+            'pending'    => 'Pending',
+            'diterima'   => 'Diterima',
+            'diproses'   => 'Diproses',
+            'selesai'    => 'Selesai',
+            'dibatalkan' => 'Dibatalkan',
+            default      => ucfirst($this->status),
         };
     }
 }

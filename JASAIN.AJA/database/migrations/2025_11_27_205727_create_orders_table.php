@@ -11,14 +11,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            // siapa yang memesan
-            $table->unsignedBigInteger('user_id');
-
-            // jasa yang dipesan (service_registrations.id)
-            $table->unsignedBigInteger('service_id');
-
-            // pemilik / penyedia jasa (user_id dari service_registrations)
-            $table->unsignedBigInteger('provider_id');
+            // siapa yang pesan & jasa apa
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_id')->constrained('service_registrations')->onDelete('cascade');
+            $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
 
             // detail booking
             $table->date('booking_date');
@@ -26,19 +22,22 @@ return new class extends Migration
             $table->text('alamat');
             $table->text('catatan')->nullable();
 
-            // status: pending, diterima, diproses, selesai, dibatalkan
-            $table->string('status', 20)->default('pending');
+            // status pengerjaan (dipantau penyedia & admin)
+            $table->string('status')->default('pending');
+            // optional label kalau mau
+            // $table->string('status_label')->nullable();
 
-            // nanti untuk pembayaran, sementara biarkan saja
-            $table->string('payment_status', 20)->default('belum_dibayar');
-            $table->string('payment_method', 50)->nullable();
+            // ====== KOLOM PEMBAYARAN (UNTUK QR) ======
+            // unpaid / waiting / paid / failed / cancelled
+            $table->string('payment_status')->default('unpaid');
+
+            // metode pembayaran (dana/gopay/ovo/qris, dll)
+            $table->string('payment_method')->nullable();
+
+            // token unik yang nanti dimasukkan ke QR
+            $table->string('payment_token')->nullable()->unique();
 
             $table->timestamps();
-
-            // foreign key (opsional, tapi bagus kalau ada)
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('service_id')->references('id')->on('service_registrations')->onDelete('cascade');
-            $table->foreign('provider_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

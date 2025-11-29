@@ -12,6 +12,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomePenjualController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,10 +85,32 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/checkout', [CartController::class, 'checkout'])
         ->name('cart.checkout');
 
+    // PEMBAYARAN
+    Route::get('/checkout/payment', [PaymentController::class, 'selectMethod'])
+        ->name('payment.select');
+
+    Route::post('/checkout/payment/method', [PaymentController::class, 'processMethod'])
+        ->name('payment.method');
+
+    // API status pembayaran untuk auto-refresh
+    Route::get('/payment/status/{token}', [PaymentController::class, 'status'])
+        ->name('payment.status');
+
 
     // logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+    // QR di laptop
+    Route::get('/checkout/payment/qr/{token}', [PaymentController::class, 'showQr'])
+        ->name('payment.qr');
+    // halaman di HP setelah scan
+    Route::get('/pay/{token}', [PaymentController::class, 'showPayPage'])
+        ->name('payment.pay-page');
+     // tombol "Bayar Sekarang" di HP
+    Route::post('/pay/{token}/confirm', [PaymentController::class, 'confirm'])
+        ->name('payment.confirm');
+
 
 
 /*
