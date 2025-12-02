@@ -25,7 +25,6 @@ class BookingController extends Controller
         return view('booking', compact('orders'));
     }
 
-    // simpan pesanan baru
     public function store(Request $request)
     {
         // VALIDASI INPUT
@@ -42,9 +41,9 @@ class BookingController extends Controller
 
         // SIMPAN PESANAN KE DATABASE
         Order::create([
-            'user_id'       => auth()->id(),        // user yang memesan
-            'service_id'    => $service->id,        // id jasa
-            'provider_id'   => $service->user_id,   // pemilik jasa (penyedia)
+            'user_id'       => auth()->id(),        
+            'service_id'    => $service->id,        
+            'provider_id'   => $service->user_id,   
             'booking_date'  => $request->booking_date,
             'booking_time'  => $request->booking_time,
             'alamat'        => $request->alamat,

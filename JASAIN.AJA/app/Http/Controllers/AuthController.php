@@ -16,44 +16,72 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
-        ]);
+        // Validasi input login
+        $data = $request->validate(
+            [
+                'login'    => ['required', 'string'],
+                'password' => ['required', 'string'],
+            ],
+            [
+                'login.required'    => 'Nama atau email wajib diisi.',
+                'password.required' => 'Password wajib diisi.',
+            ]
+        );
 
-        if (Auth::attempt($credentials)) {
+        $login    = $data['login'];
+        $password = $data['password'];
+
+        // Tentukan pakai email atau name
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+        if (Auth::attempt([$field => $login, 'password' => $password])) {
             $request->session()->regenerate();
 
             $user = Auth::user();
 
-            // 🔥 BEDAKAN BERDASARKAN ROLE
-            if ($user->role_id == 1) {
-                // ADMIN
+            // Contoh: kalau ada role admin, sesuaikan kebutuhanmu
+            if (isset($user->role_id) && $user->role_id == 1) {
                 return redirect()->route('admin.dashboard');
             }
 
-            // USER BIASA / PENYEDIA / PELANGGAN
+            // Default redirect
             return redirect()->route('home');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah!',
-        ])->withInput();
+        // Kalau gagal login
+        return back()
+            ->withErrors([
+                'auth' => 'Nama/email atau password salah.',
+            ])
+            ->withInput(); // penting agar old('mode') dan old('login') balik lagi
     }
 
     public function register(Request $request)
     {
-        $data = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        // Validasi register
+        $data = $request->validate(
+            [
+                'name'                  => ['required', 'string', 'max:255'],
+                'email'                 => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'password'              => ['required', 'string', 'min:6', 'confirmed'],
+            ],
+            [
+                'name.required'         => 'Nama wajib diisi.',
+                'email.required'        => 'Email wajib diisi.',
+                'email.email'           => 'Format email tidak valid.',
+                'email.unique'          => 'Email sudah terdaftar.',
+                'password.required'     => 'Password wajib diisi.',
+                'password.min'          => 'Password minimal 6 karakter.',
+                'password.confirmed'    => 'Konfirmasi password tidak sama.',
+            ]
+        );
 
         $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id'  => 3, // default pelanggan
+            // Kalau kamu pakai kolom role_id, boleh pakai default
+            'role_id'  => $data['role_id'] ?? 3,
         ]);
 
         Auth::login($user);

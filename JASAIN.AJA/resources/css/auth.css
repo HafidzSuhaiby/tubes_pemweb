@@ -198,6 +198,17 @@ body {
     pointer-events: none;
 }
 
+.input-group .input-error {
+    border: 1px solid #e3342f; /* merah */
+}
+
+.error-message {
+    color: #e3342f;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+
 
 /* ========================
    PERBAIKAN POSISI TOMBOL
