@@ -104,18 +104,29 @@ class PaymentController extends Controller
     // Tombol "Bayar Sekarang" di HP → anggap berhasil
     public function confirm(string $token)
     {
-        $orders = Order::where('payment_token', $token)->get();
+        // 1. Ambil data order sekaligus dengan data Service dan User (Penyedia)
+        // Kita gunakan 'with' agar lebih efisien
+        $order = Order::with('service.user')
+                    ->where('payment_token', $token)
+                    ->first(); 
 
-        if ($orders->isEmpty()) {
+        if (!$order) {
             abort(404);
         }
 
+        // 2. Update status pembayaran (Logika asli tetap dipertahankan)
         Order::where('payment_token', $token)->update([
             'payment_status' => 'paid',
-            'status'         => 'diterima', // atau tetap pending kalau mau verifikasi manual
+            'status'         => 'diterima',
         ]);
+        
+        // 3. Ambil nomor telepon dari User penyedia jasa
+        // Alurnya: Order -> Service -> User -> Telepon
+        // Kita pakai '?? null' untuk jaga-jaga jika datanya kosong
+        $nomorWaPenyedia = $order->service->user->telepon ?? null;
 
-        return view('payment.paid-success');
+        // 4. Kirim variabel $nomorWaPenyedia ke View
+        return view('payment.paid-success', compact('nomorWaPenyedia'));
     }
 
     // Dipanggil oleh halaman QR (laptop) untuk auto-refresh status
