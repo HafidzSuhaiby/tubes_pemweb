@@ -67,7 +67,7 @@
             <p class="qr-amount mb-1">
                 Rp {{ number_format($total, 0, ',', '.') }}
             </p>
-            <small class="text-muted d-block mb-3">
+            <small class="text-white d-block mb-3">
                 Pastikan nominal pembayaran sesuai.
             </small>
 

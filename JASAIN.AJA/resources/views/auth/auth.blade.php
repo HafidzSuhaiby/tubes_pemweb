@@ -66,7 +66,14 @@
                 @enderror
             </div>
 
+            <div class="flex justify-end mt-1">
+                <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline">
+                    Lupa password?
+                </a>
+            </div>
+
             <button type="submit" class="btn btn-primary" style="margin-top: 8px;">MASUK</button>
+
         </form>
     </div>
 

@@ -7,7 +7,7 @@
     
     {{-- Judul dan Teks Utama --}}
     <h3 class="text-white mb-3">Pembayaran Berhasil</h3>
-    <p class="text-muted mb-5 text-center" style="max-width: 500px;">
+    <p class="text-white mb-5 text-center" style="max-width: 500px;">
         Kamu bisa menutup halaman ini. Status pesanan di website utama akan
         otomatis berubah setelah beberapa detik.
     </p>
@@ -37,7 +37,6 @@
                 <a href="https://wa.me/{{ $cleanNumber }}" target="_blank" class="btn btn-success w-100 py-2 mb-3 fw-bold" style="border-radius: 8px;">
                     <i class="fab fa-whatsapp me-2"></i> Chat Penyedia Sekarang
                 </a>
-
                 {{-- Info Nomor (Teks) --}}
                 <div class="text-muted small">
                     <i class="fas fa-phone-alt me-1"></i> Nomor: {{ $nomorWaPenyedia }}
@@ -48,7 +47,6 @@
                     <i class="fas fa-exclamation-triangle me-1"></i> Nomor kontak penyedia tidak tersedia.
                 </div>
             @endif
-
         </div>
     </div>
 
