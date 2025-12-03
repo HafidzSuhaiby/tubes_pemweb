@@ -1,41 +1,35 @@
-# === Base image PHP sesuai requirement (^8.2) ===
 FROM php:8.2-fpm
 
-# Install package yang dibutuhkan PHP & Node (buat Vite build)
+# Install dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    zip \
-    curl \
-    nodejs \
-    npm \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
+    git unzip zip curl \
+    nodejs npm \
+    libpng-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Set direktori kerja di dalam container
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set work directory
 WORKDIR /var/www
 
-# Copy file composer dulu untuk cache layer
+# Copy composer first for cache
 COPY composer.json composer.lock* ./
 
-# Install dependency PHP tanpa menjalankan script composer
-# (penting karena di composer.json kamu ada script yang pakai artisan & migrate)
+# Install PHP dependencies without running scripts
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Copy semua isi project
+# Copy the rest of the project
 COPY . .
 
-# Install dependency JS & build asset Vite (kalau ada)
-# Kalau npm gagal (misalnya kamu nggak pakai Vite), build tetap lanjut
-RUN npm install && npm run build || echo "npm build skipped"
+# Build Vite (optional, skip if error)
+RUN npm install && npm run build || echo "Skipping npm build"
 
-# Permission untuk storage & cache
+# Storage permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-# Port yang akan digunakan Railway ($PORT akan diisi otomatis di server)
+# Expose port
 EXPOSE 8000
 
-# Jalankan server Laravel
+# Run Laravel server
 CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
