@@ -1,5 +1,20 @@
 {
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "@tailwindcss/vite": "^4.1.17",
+    "laravel-vite-plugin": "^2.0.1",
+    "nodemon": "^3.1.11",
+    "vite": "^7.2.6"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "datatables.net": "^2.3.5",
+    "datatables.net-dt": "^2.3.5",
+    "jquery": "^3.7.1",
+    "sweetalert2": "^11.26.3",
+    "swiper": "^12.0.3"
   }
 }
