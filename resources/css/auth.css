@@ -1,0 +1,247 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+}
+
+/* WRAPPER */
+.auth-wrapper {
+    width: 900px;
+    max-width: 100%;
+    height: 520px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+    overflow: hidden;
+    position: relative;
+}
+
+/* ========================
+   FORM AREA (SIGN IN / UP)
+======================== */
+.forms {
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    top: 0;
+    padding: 60px;
+    background: #ffffff;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: opacity 0.9s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+
+.forms.sign-in {
+    left: 0;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.forms.sign-up {
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* saat toggle sign-up mode */
+.auth-wrapper.sign-up-mode .forms.sign-in {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.auth-wrapper.sign-up-mode .forms.sign-up {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* FORM TYPOGRAPHY */
+.forms h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.forms p.subtitle {
+    color: #7a7a7a;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #4b5563;
+}
+
+.input-group input {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.btn {
+    border-radius: 999px;
+    padding: 10px 28px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: #4f46e5;
+    color: #fff;
+}
+
+.small-link {
+    font-size: 12px;
+    color: #6060ff;
+    margin-left: 10px;
+}
+
+/* ========================
+   PANEL BIRU — SLIDING OVERLAY
+======================== */
+.overlay-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    right: 0;
+    z-index: 2;
+    pointer-events: none;
+    transition: right 4s cubic-bezier(0.4, 0.0, 0.2, 1), left 4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.auth-wrapper.sign-up-mode .overlay-container {
+    right: auto;
+    left: 0;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #060a1b, #4925ca);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    transition: all .6s ease;
+    pointer-events: auto;
+    border-radius: 150px 0 0 150px;
+}
+
+.auth-wrapper.sign-up-mode .overlay {
+    border-radius: 0 150px 150px 0;
+}
+
+/* ========================
+   TEXT DI DALAM OVERLAY
+======================== */
+.overlay-panel {
+    text-align: center;
+    color: #ffffff;
+    padding: 50px;
+    transition: all .6s ease;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: auto;
+}
+
+.overlay-left {
+    opacity: 0;
+    transform: translateX(-20%);
+    pointer-events: none;
+}
+
+.overlay-right {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.auth-wrapper.sign-up-mode .overlay-left {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.auth-wrapper.sign-up-mode .overlay-right {
+    opacity: 0;
+    transform: translateX(20%);
+    pointer-events: none;
+}
+
+.input-group .input-error {
+    border: 1px solid #e3342f; /* merah */
+}
+
+.error-message {
+    color: #e3342f;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+
+
+/* ========================
+   PERBAIKAN POSISI TOMBOL
+   DI PANEL OVERLAY-RIGHT
+======================== */
+
+/* Tambah jarak antara paragraf & tombol */
+.overlay-right p {
+    margin-bottom: px;
+}
+
+/* Turunkan tombol SIGN UP */
+.overlay-right button {
+    margin-top: 10px;   /* Bisa ubah ke 20–40 untuk lebih turun */
+}
+
+.overlay-left p {
+    margin-bottom: px;
+}
+
+/* Turunkan tombol SIGN UP */
+.overlay-left button {
+    margin-top: 10px;   /* Bisa ubah ke 20–40 untuk lebih turun */
+}
+
+
+.auth-wrapper {
+    position: relative;
+}
+.auth-wrapper {
+    border: 2px solid rgba(120, 134, 255, 0.5);
+    box-shadow:
+        0 0 10px rgba(120, 134, 255, 0.3),
+        0 0 25px rgba(120, 134, 255, 0.2),
+        0 0 40px rgba(120, 134, 255, 0.15);
+}
