@@ -49,7 +49,7 @@
 
             <div class="input-group">
                 <label for="register_password">Password</label>
-                <input type="password" id="register_password" name="password" placeholder="Create a password" required>
+                <input type="password" id="register_password" name="password" placeholder="Create 6 leght password" required>
             </div>
 
             <div class="input-group">
