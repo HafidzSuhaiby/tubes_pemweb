@@ -12,7 +12,8 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+    {{-- KARTU UTAMA: DETAIL PESANAN --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
         
         {{-- Header --}}
         <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
@@ -88,7 +89,7 @@
                 </div>
             </div>
 
-            {{-- Info Pemesan (User) --}}
+            {{-- Info Pemesan & Penyedia (Baris Baru) --}}
             <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
                 
                 {{-- Pemesan --}}
@@ -117,10 +118,57 @@
                         <p class="text-xs text-gray-400">{{ $order->provider->email ?? '-' }}</p>
                     </div>
                 </div>
+            </div> {{-- End Grid Pemesan/Penyedia --}}
 
+        </div> {{-- End Main Grid --}}
+    </div> {{-- End Kartu Utama --}}
+
+
+    {{-- KARTU KEDUA: PANEL AKSI ADMIN (RELEASE DANA) --}}
+    {{-- Ini dipisah agar rapi --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+            <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wide">Aksi Admin (Rekening Bersama)</h3>
+        </div>
+        
+        <div class="p-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <p class="text-gray-600 mb-1 font-medium">Status Pencairan Dana:</p>
+                    @if($order->is_funds_released)
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                            <i class="fas fa-check-circle mr-2"></i> SUDAH DICAIRKAN
+                        </span>
+                    @else
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500">
+                            <i class="fas fa-clock mr-2"></i> BELUM DICAIRKAN
+                        </span>
+                    @endif
+                </div>
+
+                <div>
+                    {{-- Tombol hanya muncul jika status pesanan SELESAI dan Dana BELUM cair --}}
+                    @if($order->status === 'selesai' && !$order->is_funds_released)
+                        <form action="{{ route('admin.orders.release', $order->id) }}" method="POST" onsubmit="return confirm('Yakin ingin mencairkan dana ke penyedia jasa? Tindakan ini tidak bisa dibatalkan.');">
+                            @csrf
+                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition transform hover:-translate-y-1 w-full md:w-auto">
+                                <i class="fas fa-wallet mr-2"></i> Cairkan Dana Sekarang
+                            </button>
+                        </form>
+                    @elseif($order->status !== 'selesai')
+                        <button disabled class="bg-gray-200 text-gray-400 font-bold py-2 px-6 rounded-lg cursor-not-allowed w-full md:w-auto">
+                            Menunggu Pesanan Selesai
+                        </button>
+                    @endif
+                </div>
             </div>
-
+            
+            <div class="mt-4 p-4 bg-blue-50 text-blue-800 text-sm rounded-lg border border-blue-100">
+                <i class="fas fa-info-circle mr-1"></i> 
+                <strong>Info:</strong> Dana sebesar <strong>Rp {{ number_format($order->service->harga_mulai, 0, ',', '.') }}</strong> akan ditransfer dari Rekening Bersama ke Saldo Dompet Penyedia Jasa ({{ $order->provider->name }}).
+            </div>
         </div>
     </div>
+
 </div>
 @endsection

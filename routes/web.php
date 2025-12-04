@@ -14,6 +14,7 @@ use App\Http\Controllers\HomePenjualController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\WalletController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -158,6 +159,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/orders/{order}/status', [BookingController::class, 'updateStatus'])
         ->name('orders.update-status');
 
+    // Menu Dompet
+    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet.index');
+    Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
@@ -219,4 +224,9 @@ Route::middleware(['auth', 'hakakses:admin'])
 
         Route::get('/data-pesanan/{order}', [OrderAdminController::class, 'show'])
             ->name('orders.show');
+
+        Route::post('/orders/{id}/release', [OrderAdminController::class, 'releaseFunds'])
+        ->name('orders.release');
     });
+
+        
