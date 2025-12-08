@@ -25,13 +25,20 @@
                     </p>
 
                     <div class="d-flex flex-wrap gap-3 justify-content-end">
-                        <a href="#" id="btnCariJasa" class="btn btn-primary px-4 py-2">
+                        {{-- Tombol Cari Jasa --}}
+                        <a href="{{ route('jasa.index') }}" 
+                        id="btnCariJasa" 
+                        class="btn btn-primary px-4 py-2">
                             Cari Jasa
                         </a>
-                        <a href="#" id="btnDaftarJasa" class="btn btn-primary px-4 py-2">
+                        {{-- Tombol Daftar Jasa (Jasa Saya) --}}
+                        <a href="{{ route('daftar-jasa') }}" 
+                        id="btnDaftarJasa" 
+                        class="btn btn-primary px-4 py-2">
                             Daftar Jasa
                         </a>
                     </div>
+
 
                 </div>
 

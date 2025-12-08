@@ -41,18 +41,23 @@ class AuthController extends Controller
         // Tentukan pakai email atau name
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
-        // Coba login biasa
+        // Coba login
         if (Auth::attempt([$field => $login, 'password' => $password])) {
             $request->session()->regenerate();
 
             $user = Auth::user();
 
-            // Jika punya role admin
+            // ROLE: ADMIN
             if (isset($user->role_id) && $user->role_id == 1) {
                 return redirect()->route('admin.dashboard');
             }
 
-            // Default redirect user biasa
+            // ROLE: PENYEDIA
+            if (isset($user->role_id) && $user->role_id == 2) {
+                return redirect()->route('home.penyedia');
+            }
+
+            // ROLE LAIN: USER BIASA
             return redirect()->route('home');
         }
 
@@ -81,11 +86,24 @@ class AuthController extends Controller
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
+            // default 3 (misalnya user biasa), boleh kamu ubah sesuai kebutuhan
             'role_id'  => $data['role_id'] ?? 3,
         ]);
 
         Auth::login($user);
 
+        // Setelah register, langsung redirect sesuai role
+        // ROLE: ADMIN
+        if (isset($user->role_id) && $user->role_id == 1) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // ROLE: PENYEDIA
+        if (isset($user->role_id) && $user->role_id == 2) {
+            return redirect()->route('home.penyedia');
+        }
+
+        // ROLE LAIN: USER BIASA
         return redirect()->route('home');
     }
 

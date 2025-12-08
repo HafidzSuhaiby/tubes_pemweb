@@ -22,15 +22,6 @@
                     <p class="hero-subtext mb-4">
                         “Terima kasih sudah mempercayai Jasain.Aja sebagai platform untuk mempromosikan jasa Anda.
 
-                    <div class="d-flex flex-wrap gap-3 justify-content-end">
-                        <a href="#" id="btnCariJasa" class="btn btn-primary px-4 py-2">
-                            Cari Jasa
-                        </a>
-                        <a href="#" id="btnDaftarJasa" class="btn btn-primary px-4 py-2">
-                            Daftar Jasa
-                        </a>
-                    </div>
-
                 </div>
 
                 {{-- Kanan: shape biru + foto --}}

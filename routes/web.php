@@ -101,6 +101,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', function () {
         return view('home');
     })->name('home');
+    
+    Route::get('/home-penjual', function () {
+        return view('home-penjual');
+    })->name('home.penyedia');
+
 
     // Halaman tentang
     Route::get('/tentang', [TentangKamiController::class, 'index'])
@@ -117,8 +122,6 @@ Route::middleware('auth')->group(function () {
     // Jasa saya
     Route::get('/jasa-saya', [HomePenjualController::class, 'index'])
         ->name('jasa-saya');
-
-    Route::get('/penjual-home', [HomePenjualController::class, 'index']);
 
     // Daftar jasa
     Route::get('/jasa', [JasaController::class, 'index'])

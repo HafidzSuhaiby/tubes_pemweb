@@ -27,12 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // optional: klik juga ganti state permanen
         cariJasa.addEventListener('click', (e) => {
-            e.preventDefault();
             setActive(cariJasa, daftarJasa);
         });
 
         daftarJasa.addEventListener('click', (e) => {
-            e.preventDefault();
             setActive(daftarJasa, cariJasa);
         });
     }

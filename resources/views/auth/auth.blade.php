@@ -49,22 +49,27 @@
             {{-- PASSWORD --}}
             <div class="input-group">
                 <label for="login_password">Password</label>
-                <input
-                    type="password"
-                    id="login_password"
-                    name="password"
-                    placeholder="••••••••"
-                    class="@error('password') input-error @enderror @error('auth') input-error @enderror"
-                    required
-                >
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="login_password"
+                        name="password"
+                        placeholder="••••••••"
+                        class="@error('password') input-error @enderror @error('auth') input-error @enderror"
+                        required
+                    >
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="login_password"
+                        aria-label="Tampilkan / sembunyikan password"
+                    ></button>
+                </div>
                 @error('password')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
-                {{-- duplikat error login gagal di bawah password --}}
-                @error('auth')
-                    <p class="error-message">{{ $message }}</p>
-                @enderror
             </div>
+
 
             <div class="flex justify-end mt-1">
                 <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline">
@@ -122,14 +127,22 @@
             {{-- PASSWORD --}}
             <div class="input-group">
                 <label for="register_password">Password</label>
-                <input
-                    type="password"
-                    id="register_password"
-                    name="password"
-                    placeholder="Minimal 6 karakter"
-                    class="@error('password') input-error @enderror"
-                    required
-                >
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="register_password"
+                        name="password"
+                        placeholder="Minimal 6 karakter"
+                        class="@error('password') input-error @enderror"
+                        required
+                    >
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="register_password"
+                        aria-label="Tampilkan / sembunyikan password"
+                    ></button>
+                </div>
                 @error('password')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -138,14 +151,27 @@
             {{-- KONFIRMASI PASSWORD --}}
             <div class="input-group">
                 <label for="register_password_confirmation">Confirm Password</label>
-                <input
-                    type="password"
-                    id="register_password_confirmation"
-                    name="password_confirmation"
-                    placeholder="Ulangi password"
-                    required
-                >
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="register_password_confirmation"
+                        name="password_confirmation"
+                        placeholder="Ulangi password"
+                        required
+                    >
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        data-target="register_password_confirmation"
+                        aria-label="Tampilkan / sembunyikan password"
+                    ></button>
+                </div>
+
+                @error('password_confirmation')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
+
 
             <button type="submit" class="btn btn-primary" style="margin-top: 8px;">DAFTARKAN</button>
         </form>
