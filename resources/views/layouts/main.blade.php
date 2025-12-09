@@ -57,9 +57,21 @@
 
                         {{-- HOME --}}
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('home') ? 'active' : '' }}"
-                                href="{{ url('/home') }}">Home</a>
+                            @if($role === 'penyedia')
+                                {{-- HOME untuk PENYEDIA --}}
+                                <a class="nav-link {{ request()->is('home-penjual') ? 'active' : '' }}"
+                                href="{{ url('/home-penjual') }}">
+                                    Home
+                                </a>
+                            @else
+                                {{-- HOME untuk role lain (pelanggan, dll) --}}
+                                <a class="nav-link {{ request()->is('home') ? 'active' : '' }}"
+                                href="{{ url('/home') }}">
+                                    Home
+                                </a>
+                            @endif
                         </li>
+
 
                         {{-- TENTANG --}}
                         <li class="nav-item">
