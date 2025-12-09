@@ -100,12 +100,6 @@
             {{-- ================= RIGHT SECTION ================= --}}
             <div class="flex items-center space-x-4">
 
-                {{-- Notifikasi --}}
-                <div class="relative p-1 text-gray-500 hover:text-gray-900 rounded-full">
-                    <span class="absolute top-1.5 right-1 p-1 bg-red-500 animate-ping rounded-full opacity-75"></span>
-                    <span class="absolute top-1.5 right-1 p-1 bg-red-500 rounded-full"></span>
-                    <i class="fa-regular fa-bell fa-lg"></i>
-                </div>
 
                 {{-- Profile --}}
                 <div class="relative">
