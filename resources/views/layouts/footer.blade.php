@@ -44,10 +44,40 @@
             <div class="col-12 col-md-3 mb-4">
                 <h5 class="fw-bold mb-3">Menu</h5>
                 <ul class="list-unstyled footer-links">
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/tentang">Tentang Kami</a></li>
-                    <li><a href="/jasa">Jasa</a></li>
-                    <li><a href="/daftar-jasa">Daftar Jasa</a></li>
+                    {{-- HOME --}}
+                     @if ($role === 'penyedia')
+                        <li>
+                            @if($role === 'penyedia')
+                                {{-- HOME untuk PENYEDIA --}}
+                                <a href="{{ url('/home-penjual') }}">
+                                    Home
+                                </a>
+                            @else
+                                {{-- HOME untuk role lain (pelanggan, dll) --}}
+                                <a href="{{ url('/home') }}">
+                                    Home
+                                </a>
+                            @endif
+                        </li>
+                        <li><a href="/tentang">Tentang Kami</a></li>
+                        @else
+                        <li>
+                            @if($role === 'penyedia')
+                                {{-- HOME untuk PENYEDIA --}}
+                                <a href="{{ url('/home-penjual') }}">
+                                    Home
+                                </a>
+                            @else
+                                {{-- HOME untuk role lain (pelanggan, dll) --}}
+                                <a href="{{ url('/home') }}">
+                                    Home
+                                </a>
+                            @endif
+                        </li>
+                        <li><a href="/tentang">Tentang Kami</a></li>
+                        <li><a href="/jasa">Jasa</a></li>
+                        <li><a href="/daftar-jasa">Daftar Jasa</a></li>
+                    @endif
                 </ul>
             </div>
 
